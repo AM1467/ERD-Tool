@@ -66,7 +66,7 @@
                              //t1.transform(tstr);                                    
                            
                              //var newRect = r.group(tempRect, t1);
-                                    
+                            newRect.text = t1;        
                             newRect.children = [];     // list of  lines connected to this shape    
                             newRect.type = rect_type;                         
                             newRect.click( this.clickTrigger );                            
@@ -151,7 +151,7 @@
                              var bb2 = newEllipse.getBBox();                       
                              var t1 = e.text(bb2.cx, bb2.cy, newEllipse.name);
                             
-                            
+                            newEllipse.text = t1;
                             newEllipse.children = [];            // list of  lines connected to this shape
                             newEllipse.type = ell_type;          // type
                             newEllipse.owner = 0;            // owner
@@ -329,7 +329,7 @@
                                  }
                                    
                                     del = 0;
-                                    
+                                    this.text.remove;                             // remove name
                                     this.remove();                                // remove target  
                                     
                                 }  
