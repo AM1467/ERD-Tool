@@ -8,9 +8,87 @@ and open the template in the editor.
     Author     : Rin
 */
 
-h1 {
+
+
+ body{
+     
+     margin:30px;
+     font-family: 'Ubuntu', sans-serif;
+ }
+ 
+ 
+.page-header{
+    
+    background: #e5ecff;
+    
+}
+.page-header h1 {
     
     text-align: center;
+    font-size: 90px;
+    font-family: 'Lobster', sans-serif;
+    color: #00001a;
+    text-shadow: 2px 2px #6699ff; 
+    
+}
+
+.entities{
+    
+    text-align: left;
+    
+}
+
+.entities button {
+    
+    background: #afe5ff;
+    border-color: #afe5ff;
+    color: black;
+    font-size: 17px; 
+}
+
+.relationships{
+    
+    text-align: left;
+    
+}
+
+.relationships button {
+    
+    background: white;
+    border-color: black;
+    color: black;
+    font-size: 17px; 
+}
+
+.attributes{
+    
+    text-align: left;
+    
+}
+
+.attributes button {
+    
+    background: #e6ccff;
+    border-color: #e6ccff;
+    color: black;
+    font-size: 17px;
+    
+    
+}
+
+.other{
+    
+    text-align: left;
+    
+}
+
+.other button {
+    
+    border-color: black;
+    background: black;
+    font-size: 17px;
+    
+    
 }
 
 .footer{
@@ -36,16 +114,126 @@ h1 {
 
 .jumbotron {
     
-    background-color:#ccccff;    
+    width:auto;
+    background-color: white;  
+    
+    font-size: 18px;
     
 }
+
+// MENU // 
+      
+.panel-collapse>.list-group .list-group-item:first-child {
+     
+     border-top-right-radius: 0
+     ;border-top-left-radius: 0;
+ }
+      
+.panel-collapse>.list-group .list-group-item { 
+     
+     background: #e5ecff;
+     border-color: white;
+     border-width: 1px 0;
+     
+ }
+      
+.panel-collapse>.list-group .list-group-item:hover {
+          
+        background: white;
+        cursor: pointer;         
+          
+ }
+     
+.panel-collapse>.list-group {
+          
+       margin-bottom: 0;
+ }
+      
+.panel-collapse .list-group-item {
+          
+       border-radius:0;
+ }
+
+.panel-collapse .list-group .list-group {
+          
+       margin: 0;margin-top: 10px;
+ }
+      
+.panel-collapse .list-group-item li.list-group-item {
+    
+    margin: 0 -15px;
+    border-top: 1px solid #ddd !important;
+    border-bottom: 0;
+    padding-left: 30px;
+
+}
+      
+ .panel-collapse .list-group-item li.list-group-item:last-child {
+     
+     padding-bottom: 0;
+     
+ }
+      
+
+ .panel-collapse div.list-group div.list-group{
+     
+     margin: 0;
+     
+ }
+      
+ .panel-collapse div.list-group .list-group span.list-group-item {
+     
+     border-top: 1px solid #ddd !important;
+     border-bottom: 0;
+     padding-left: 30px;
+     
+ }
+      
+ .panel-collapse .list-group-item li.list-group-item {
+     
+     border-top: 1px solid #DDD !important;
+     
+ }
+      
+      
+      #title{
+          
+          background: #b3ccff;
+          border-color: white; 
+          border-width: 1px 0;
+          
+      }
+      
+      .panel-default h4{
+          
+          
+          font-size: 17px;
+          
+          
+      }
+      
+      #subtitle {          
+          
+         font-size: 17px; 
+          
+      }
+      
+      #subtitle:hover {
+          
+          background: #e5ecff;
+          cursor: auto;
+          
+      }
+
+// MENU //
 
 
 
 .btn-primary{
     
- background: black;
+ 
  margin: 20px;    
+ border-radius: 0;
          
     
 }
@@ -55,10 +243,11 @@ h1 {
    height: 800px; 
    width:  1300px; 
    background-color: #f2f4f3;    
-   border-style: dashed;
+   border-style: solid;
    border-width: 1px;
    margin-left: auto;
    margin-right: auto;
+   //box-shadow: 10px 10px 20px #888888;
 }
 
 
