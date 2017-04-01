@@ -385,7 +385,28 @@
                             
                             var target_edge = 0;
                             
+                            var change_ratio_to_one = 0;
+                            
+                            var change_ratio_to_N = 0;
+                            
+                            var ratio_edge = 0;  // for cardinality ratio
+                            
                             var startP, endP; 
+                            
+                            function cardinalityRatioOne(temp){
+                                
+                                ratio_edge = temp;      
+                                change_ratio_to_one = 1;                                
+                                
+                            }
+                           
+                           function cardinalityRatioN(temp){
+                                
+                                ratio_edge = temp;      
+                                change_ratio_to_N = 1;                                
+                                
+                            }
+                            
                            
                             function removeRelConnection(temp){
                                 
@@ -480,9 +501,109 @@
                                 strokeWidth: 3
                                 });  
                                 
-                         function clickTrigger () {       
+                         function clickTrigger () {                             
                              
-                               if ((remove_rel_connection === 1) && (this.type === "relationship" || this.type === "identifying_rel")){
+                             
+                             
+                               if((change_ratio_to_one === 1) && (this.type === "relationship" || this.type === "identifying_rel")){
+                                   
+                                   switch (ratio_edge){
+                                     case 1:
+                                         
+                                        if( this.topLine !== 0){
+                                          
+                                            this.topLine.ratio = "1";                                                                               
+                                            
+                                        }
+                                    break; 
+                                
+                                    case 2:
+                                         
+                                        if( this.botLine !== 0){
+                                            
+                                           this.botLine.ratio = "1";                                         
+                                            
+                                        }
+                                    break;                              
+                                     
+                                     case 3:
+                                         
+                                         if( this.leftLine !== 0){
+                                            
+                                           this.leftLine.ratio = "1";  
+                                           
+                                        }
+                                    break; 
+                                
+                                    case 4:
+                                         
+                                        if( this.rightLine !== 0){
+                                          
+                                             this.rightLine.ratio = "1";    
+                                            
+                                        }
+                                        
+                                    break;
+                                        
+                                        
+                                    }
+                                    
+                                    ratio_edge = 0;
+                                    change_ratio_to_one = 0;                     
+                                   
+                                   
+                               }
+                               
+                               else if((change_ratio_to_N === 1) && (this.type === "relationship" || this.type === "identifying_rel")){
+                                   
+                                   switch (ratio_edge){
+                                     case 1:
+                                         
+                                        if( this.topLine !== 0){
+                                          
+                                            this.topLine.ratio = "N";                                                                               
+                                            
+                                        }
+                                    break; 
+                                
+                                    case 2:
+                                         
+                                        if( this.botLine !== 0){
+                                            
+                                           this.botLine.ratio = "N";                                         
+                                            
+                                        }
+                                    break;                              
+                                     
+                                     case 3:
+                                         
+                                         if( this.leftLine !== 0){
+                                            
+                                           this.leftLine.ratio = "N";  
+                                           
+                                        }
+                                    break; 
+                                
+                                    case 4:
+                                         
+                                        if( this.rightLine !== 0){
+                                          
+                                             this.rightLine.ratio = "N";    
+                                            
+                                        }
+                                        
+                                    break;
+                                        
+                                        
+                                    }
+                                    
+                                    ratio_edge = 0;
+                                    change_ratio_to_N = 0;                     
+                                   
+                                   
+                               }
+                             
+                               else if ((remove_rel_connection === 1) && (this.type === "relationship" || this.type === "identifying_rel")){
                                    
                                    switch (target_edge){
                                      case 1:
@@ -497,6 +618,7 @@
                                                 this.topLine.companion.remove();                                             
                                             }   
                                             
+                                            this.topLine.text.remove();
                                             this.topLine.remove();
                                             this.topEntity = 0;                                            
                                             
@@ -516,6 +638,7 @@
                                                 
                                             }   
                                             
+                                            this.botLine.text.remove();
                                             this.botLine.remove();
                                             this.botEntity = 0;                                            
                                             
@@ -534,6 +657,7 @@
                                                 this.leftLine.companion.remove();                                             
                                             }   
                                             
+                                            this.leftLine.text.remove();
                                             this.leftLine.remove();
                                             this.leftEntity = 0;                                            
                                             
@@ -553,6 +677,7 @@
                                                 
                                             }   
                                             
+                                            this.rightLine.text.remove();
                                             this.rightLine.remove();
                                             this.rightEntity = 0;                                            
                                             
@@ -564,8 +689,7 @@
                                     }
                                     
                                     target_edge = 0;
-                                    remove_rel_connection = 0;
-                                   
+                                    remove_rel_connection = 0;                                   
                                    
                                    
                                }
@@ -590,6 +714,7 @@
                                                 if(this.relationships[i].start.topEntity === this){
 
                                                         this.relationships[i].start.topLine = 0;         // start point of the line will always be the child
+                                                        this.relationships[i].start.topEntity = 0; 
 
 
                                                     }
@@ -597,6 +722,7 @@
                                                    if(this.relationships[i].start.botEntity === this){
                                                     
                                                     this.relationships[i].start.botLine = 0;         // start point of the line will always be the child
+                                                    this.relationships[i].start.botEntity = 0; 
                                                                                      
                                                     
                                                 }
@@ -605,6 +731,7 @@
                                                 if(this.relationships[i].start.leftEntity === this){
                                                     
                                                     this.relationships[i].start.leftLine = 0;         // start point of the line will always be the child
+                                                    this.relationships[i].start.leftEntity = 0; 
                                                                                      
                                                     
                                                 }
@@ -612,6 +739,7 @@
                                                 if(this.relationships[i].start.rightEntity === this){
                                                     
                                                     this.relationships[i].start.rightLine = 0;         // start point of the line will always be the child
+                                                    this.relationships[i].start.rightEntity = 0; 
                                                                                      
                                                     
                                                 }
@@ -622,6 +750,7 @@
                                                      
                                                 }    
                                                 
+                                                this.relationships[i].text.remove();
                                                 this.relationships[i].remove();                // remove line                                                 
 
                                         }   
@@ -647,7 +776,10 @@
                                          if(this.topLine.companion !== 0){                                             
                                               
                                                 this.topLine.companion.remove();                                             
-                                         }                                        
+                                         }          
+                                         
+                                         
+                                            this.topLine.text.remove();
                                             this.topLine.remove();
                                             
                                         }  
@@ -660,7 +792,9 @@
                                          if(this.botLine.companion !== 0){                                             
                                               
                                                 this.botLine.companion.remove();                                             
-                                         }                                        
+                                         }        
+                                         
+                                            this.botLine.text.remove();
                                             this.botLine.remove();
                                             
                                         }        
@@ -676,6 +810,7 @@
                                              
                                          }
                                         
+                                            this.leftLine.text.remove();
                                             this.leftLine.remove();
                                             
                                         }    
@@ -688,7 +823,9 @@
                                          if(this.rightLine.companion !== 0){                                             
                                               
                                                 this.rightLine.companion.remove();                                             
-                                         }                                        
+                                         }      
+                                         
+                                            this.rightLine.text.remove();
                                             this.rightLine.remove();
                                             
                                         }        
@@ -912,6 +1049,7 @@
                                                 this.topLine.companion.remove();                                             
                                             }   
                                             
+                                            this.topLine.text.remove();
                                             this.topLine.remove();
                                             this.topEntity = 0;                                            
                                             
@@ -931,6 +1069,7 @@
                                                 
                                             }   
                                             
+                                            this.botLine.text.remove();
                                             this.botLine.remove();
                                             this.botEntity = 0;                                            
                                             
@@ -949,6 +1088,7 @@
                                                 this.leftLine.companion.remove();                                             
                                             }   
                                             
+                                            this.leftLine.text.remove();
                                             this.leftLine.remove();
                                             this.leftEntity = 0;                                            
                                             
@@ -968,16 +1108,15 @@
                                                 
                                             }   
                                             
+                                            this.rightLine.text.remove();
                                             this.rightLine.remove();
                                             this.rightEntity = 0;                                            
                                             
                                         }
                                         
-                                    break;
+                                    break;                                        
                                         
-                                        
-                                    }
-                                    
+                                    }                                    
                                                                      
                                  
                                  // make this shape a start point                                   
@@ -997,15 +1136,24 @@
                                   var LLocal = lsvg.line(0,0,0,0).attr({
                                     stroke: "#000",
                                     strokeWidth: 2
-                                  }); 
-                                  
+                                  });           
                                  
                                   
                                   LLocal.start = L.start;
                                   LLocal.end = L.end; 
                                   LLocal.side = edge;
                                   LLocal.type = "partial";
-                                  LLocal.companion = 0;                            
+                                  LLocal.companion = 0;
+                                  LLocal.ratio = "1";
+                                  
+                                  
+                                 startP = LLocal.start.getBBox();  
+                                 
+                                  
+                                 var ratio = lsvg.text(startP.cx, startP.cy, LLocal.ratio);
+                                 
+                                 LLocal.text = ratio;
+                                  
                                   
                                   edge = 0;
                                  
@@ -1052,6 +1200,9 @@
                                  var xstart;
                                  var ystart;
                                  
+                                 var xstart_ratio;
+                                 var ystart_ratio;
+                                 
                                  switch (LLocal.side){
                                      
                                      case 1:
@@ -1060,6 +1211,9 @@
                                                 xstart = startP.cx;
                                                 ystart = startP.y;
                                                 
+                                                xstart_ratio = xstart + 10;
+                                                ystart_ratio = ystart - 10;
+                                                
                                             }
                                             break;
                                     case 2:
@@ -1067,6 +1221,9 @@
                                             {   
                                                 xstart = startP.cx;
                                                 ystart = startP.y2;
+                                                
+                                                xstart_ratio = xstart + 10;
+                                                ystart_ratio = ystart + 10;
                                             }
                                             break; 
                                             
@@ -1075,6 +1232,9 @@
                                             { 
                                                 xstart = startP.x; 
                                                 ystart = startP.cy;
+                                                
+                                                xstart_ratio = xstart - 10;
+                                                ystart_ratio = ystart + 20;
                                             }
                                             break;
                                     case 4:
@@ -1082,6 +1242,9 @@
                                             { 
                                                 xstart = startP.x2;
                                                 ystart = startP.cy;
+                                                
+                                                xstart_ratio = xstart + 10;
+                                                ystart_ratio = ystart - 10;
                                             }
                                             break;                    
                                      
@@ -1090,7 +1253,13 @@
 
                                  LLocal.attr({x1: xstart, y1: ystart, x2: endP.x, y2: endP.cy});  // start point is on the left side of end point
                                  
-                                 
+                                 ratio.attr({                                
+                                    text: LLocal.ratio,                               
+                                    textAnchor: "middle",
+                                    x: xstart_ratio,
+                                    y: ystart_ratio                                 
+                                  });   
+                                                                  
                                  
                                  if(startP.cx > endP.cx){     // start point is on the right side of end point
                                      
@@ -1119,15 +1288,13 @@
                                 
                                 
                                     
-                                }    
-                                
+                                }                       
                                 
                                 
                                 
                                 // TOTAL RELATIONSHIP LINES //
                                  
-                                 else if ((dConnect === 1) && (this.type === "relationship" || this.type === "identifying_rel")){
-                                    
+                                 else if ((dConnect === 1) && (this.type === "relationship" || this.type === "identifying_rel")){                                    
                                     
                                     
                                     switch (edge){
@@ -1144,6 +1311,7 @@
                                                 
                                             }   
                                             
+                                            this.topLine.text.remove();
                                             this.topLine.remove();
                                             this.topEntity = 0;                                            
                                             
@@ -1162,6 +1330,7 @@
                                                 this.botLine.companion.remove();                                             
                                             }   
                                             
+                                            this.botLine.text.remove();
                                             this.botLine.remove();
                                             this.botEntity = 0;                                            
                                             
@@ -1180,7 +1349,7 @@
                                                 this.leftLine.companion.remove();                                             
                                             }   
                                             
-                                            
+                                            this.leftLine.text.remove();
                                             this.leftLine.remove();
                                             this.leftEntity = 0;                                            
                                             
@@ -1199,7 +1368,7 @@
                                                 this.rightLine.companion.remove();                                             
                                             }   
                                             
-                                            
+                                            this.rightLine.text.remove();
                                             this.rightLine.remove();
                                             this.rightEntity = 0;                                            
                                             
@@ -1243,7 +1412,16 @@
                                   LLocal.end = L.end; 
                                   LLocal.side = edge;
                                   LLocal.type = "total";
-                                  LLocal.companion = Companion;                            
+                                  LLocal.companion = Companion;  
+                                  LLocal.ratio = "1";
+                                  
+                                  
+                                 startP = LLocal.start.getBBox();                                  
+                                  
+                                 var ratio = lsvg.text(startP.cx, startP.cy, LLocal.ratio);
+                                 
+                                 LLocal.text = ratio;                                
+                                  
                                   
                                   edge = 0;                              
                                   
@@ -1289,13 +1467,19 @@
                                  var xstart;
                                  var ystart;
                                  
-                                 switch (LLocal.side){
+                                 var xstart_ratio;
+                                 var ystart_ratio;
+                                 
+                                   switch (LLocal.side){
                                      
                                      case 1:
 
                                             {  
                                                 xstart = startP.cx;
                                                 ystart = startP.y;
+                                                
+                                                xstart_ratio = xstart + 10;
+                                                ystart_ratio = ystart - 10;
                                                 
                                             }
                                             break;
@@ -1304,6 +1488,9 @@
                                             {   
                                                 xstart = startP.cx;
                                                 ystart = startP.y2;
+                                                
+                                                xstart_ratio = xstart + 10;
+                                                ystart_ratio = ystart + 10;
                                             }
                                             break; 
                                             
@@ -1312,6 +1499,9 @@
                                             { 
                                                 xstart = startP.x; 
                                                 ystart = startP.cy;
+                                                
+                                                xstart_ratio = xstart - 10;
+                                                ystart_ratio = ystart + 20;
                                             }
                                             break;
                                     case 4:
@@ -1319,15 +1509,25 @@
                                             { 
                                                 xstart = startP.x2;
                                                 ystart = startP.cy;
+                                                
+                                                xstart_ratio = xstart + 10;
+                                                ystart_ratio = ystart - 10;
                                             }
                                             break;                    
                                      
-                             }                             
+                             }                
                                  
 
                                  LLocal.attr({x1: xstart, y1: ystart, x2: endP.x, y2: endP.cy});  // start point is on the left side of end point
                                
                                  Companion.attr({x1: xstart, y1: ystart, x2: endP.x, y2: endP.cy});
+                                 
+                                 ratio.attr({                                
+                                    text: LLocal.ratio,                               
+                                    textAnchor: "middle",
+                                    x: xstart_ratio,
+                                    y: ystart_ratio                                 
+                                  });  
                                  
                                  if(startP.cx > endP.cx){     // start point is on the right side of end point
                                      
