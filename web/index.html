@@ -6,29 +6,30 @@
         
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet"> 
-        <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css?family=Martel:700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Martel:700|Ubuntu" rel="stylesheet"> 
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="newcss.css">        
+        <link rel="stylesheet" type="text/css" href="newcss.css">   
+        
         <script src="snap.svg-min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         
         
     </head>
-    <body>
-        
+    <body>       
         
         
          <div class="page-header">         
                 
                 <h1> SQL Draw</h1> 
                 
-         </div>
+         </div>       
         
-       
-        
+      
         
         <div id ="header">
-            <nav class="navbar navbar-inverse">
+            <nav class="navbar navbar-inverse" style="background-color: white; border:none; ">
 
                 <div class="container-fluid">
 
@@ -42,7 +43,7 @@
                   </div>
                   <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">
-                      <li class="active"><a href="index.html"> HOME </a></li>                  
+                      <li><a href="index.html"> HOME </a></li>                  
                       <li><a href="instructions.html">HOW TO USE</a></li>
                       <li><a href="https://github.com/AM1467/ERD-Tool/">SOURCE CODE</a></li>
                     </ul>
@@ -54,6 +55,14 @@
             
         </div>  
         
+        
+ 
+        
+
+        
+      
+
+        
         <div class = "container">  
             
             <div class="jumbotron">
@@ -64,189 +73,255 @@
             </div>
             
         </div>
+        
+              <div class="container">
+	<div class="row">
+        
+        <div class="dropdown" style = "display: inline-block;">
+            <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="/page.html">
+                New <span class="caret"></span>
+            </a>
+    		<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+              <li><a href="javaScript:void(0);" onclick = 'createRect("entity")'>Entity</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'createRect("weak_entity")'>Weak Entity</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'createEllipse("attribute")'>Attribute</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'createEllipse("derived_attribute")'>Derived Attribute</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'createEllipse("multi_attribute")'>Multivalued Attribute</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'createRhombus("relationship")'>Relationship</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'createRhombus("identifying_rel")'>Identifying Relationship</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'createCircle("disjoint")'>Specialization (Disjoint Subsets) </a></li>
+              <li><a href="javaScript:void(0);" onclick = 'createCircle("overlapping")'>Specialization (Overlapping Subsets) </a></li>
+              <li><a href="javaScript:void(0);" onclick = 'createCircle("union")'>Union </a></li>
+            </ul>
+        </div>     
             
+            <div class="dropdown">
+            <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="/page.html">
+                Attributes <span class="caret"></span>
+            </a>
+    	    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+              <li><a href="javaScript:void(0);" onclick = 'setUnique(1)'>Unique</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'setUnique(0)'>Not Unique</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'setPrimary(1)'>Primary</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'setPrimary(0)'>Not Primary</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'setNotNull(1)'>Not NULL</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'setLine()'>Set Owner</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'removeOwner()'>Remove Owner</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'setData()'>Set Data Type</a></li>             
+                 
+            </ul>
+        </div>      
             
-        <div class="row">
-          <div class="col-sm-3 col-md-2">
-            <div class="panel-group" id="accordion">
-              <div class="panel panel-default">
-                <div class="panel-heading" id ="title">
-                  <h4 class="panel-title">
-                    <span data-toggle="collapse" data-parent="#accordion" href="#collapseOne">New</span>
-                  </h4>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse in">
-                  <ul class="list-group">
-                      
-                    <li class="list-group-item" onclick = 'createRect("entity")'><span>Entity</span></li>
-                    <li class="list-group-item" onclick = 'createRect("weak_entity")'><span>Weak Entity</span></li>                       
-                    <li class="list-group-item" onclick = 'createEllipse("attribute")'><span>Attribute</span></li>  
-                    <li class="list-group-item" onclick = 'createEllipse("derived_attribute")'><span>Derived Attribute</span></li>  
-                    <li class="list-group-item" onclick = 'createEllipse("multi_attribute")'><span>Multivalued Attribute</span></li>  
-                    <li class="list-group-item" onclick = 'createRhombus("relationship")'><span>Relationship</span></li>
-                    <li class="list-group-item" onclick = 'createRhombus("identifying_rel")'><span>Identifying Relationship</span></li>
-
-                  </ul>
-                </div>
-              </div>
-                
-                <div class="panel panel-default">
-                <div class="panel-heading" id ="title">
-                  <h4 class="panel-title">
-                    <span data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Attributes</span>
-                  </h4>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse">
-                  <ul class="list-group">
-                      
-                    <li class="list-group-item" onclick = 'setUnique(1)'><span>Unique</span></li>
-                    <li class="list-group-item" onclick = 'setUnique(0)'><span>Not Unique</span></li>                      
-                    <li class="list-group-item" onclick = 'setPrimary(1)'><span>Primary</span></li>  
-                    <li class="list-group-item" onclick = 'setPrimary(0)'><span>Not Primary</span></li>  
-                    <li class="list-group-item" onclick = 'setNotNull(1)'><span>Not NULL</span></li>  
-                    <li class="list-group-item" onclick = 'setLine()'><span>Set Owner</span></li>                      
-                    <li class="list-group-item" onclick = 'removeOwner()'><span>Remove Owner</span></li>
-
-                  </ul>
-                </div>
-              </div>
-                
-                <div class="panel panel-default">
-                <div class="panel-heading" id ="title">
-                  <h4 class="panel-title">
-                    <span data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Relationships</span>
-                  </h4>
-                </div>
-                <div id="collapseThree" class="panel-collapse collapse">
-                  <div class="list-group">
-                    <span class="list-group-item" id = "subtitle">
-                      Connect/Change (Partial Participation)
-                    </span>
-                    <div class="list-group">
-                        
-                      <span class="list-group-item" onclick = 'connectSingle(1)'>Top</span>
-                      <span class="list-group-item" onclick = 'connectSingle(2)'>Bottom</span>
-                      <span class="list-group-item" onclick = 'connectSingle(3)'>Left</span>
-                      <span class="list-group-item" onclick = 'connectSingle(4)'>Right</span>
-                      
-                    </div>
-                    
-                  </div>
-                    
-                    <div class="list-group">
-                    <span class="list-group-item" id = "subtitle">
-                      Connect/Change (Total Participation)
-                    </span>
-                    <div class="list-group">
-                        
-                      <span class="list-group-item" onclick = 'connectDouble(1)'>Top</span>
-                      <span class="list-group-item" onclick = 'connectDouble(2)'>Bottom</span>
-                      <span class="list-group-item" onclick = 'connectDouble(3)'>Left</span>
-                      <span class="list-group-item" onclick = 'connectDouble(4)'>Right</span>
-                      
-                      
-                      
-                    </div>
-                    
-                  </div>
-                    
-                    <div class="list-group">
-                    <span class="list-group-item" id = "subtitle">
-                      Edit Top
-                    </span>
-                    <div class="list-group">
-                        
-                      <span class="list-group-item" onclick = 'removeRelConnection(1)'>Remove</span>
-                      <span class="list-group-item" onclick = 'cardinalityRatioOne(1)'>Ratio: 1</span> 
-                      <span class="list-group-item" onclick = 'cardinalityRatioN(1)'>Ratio: N</span>
-                      
-                    </div>
-                    
-                  </div>
-                    
-                    <div class="list-group">
-                    <span class="list-group-item" id = "subtitle">
-                      Edit Bottom
-                    </span>
-                    <div class="list-group">
-                        
-                      <span class="list-group-item" onclick = 'removeRelConnection(2)'>Remove</span>
-                      <span class="list-group-item" onclick = 'cardinalityRatioOne(2)'>Ratio: 1</span> 
-                      <span class="list-group-item" onclick = 'cardinalityRatioN(2)'>Ratio: N</span>
-                      
-                    </div>
-                    
-                  </div>
-                    
-                    <div class="list-group">
-                    <span class="list-group-item" id = "subtitle">
-                      Edit Left
-                    </span>
-                    <div class="list-group">
-                        
-                      <span class="list-group-item" onclick = 'removeRelConnection(3)'>Remove</span>
-                      <span class="list-group-item" onclick = 'cardinalityRatioOne(3)'>Ratio: 1</span> 
-                      <span class="list-group-item" onclick = 'cardinalityRatioN(3)'>Ratio: N</span>
-                      
-                    </div>
-                    
-                  </div>
-                    
-                    <div class="list-group">
-                        
-                    <span class="list-group-item" id = "subtitle">
-                      Edit Right
-                    </span>
-                    <div class="list-group">
-                        
-                      <span class="list-group-item" onclick = 'removeRelConnection(4)'>Remove</span>
-                      <span class="list-group-item" onclick = 'cardinalityRatioOne(4)'>Ratio: 1</span> 
-                      <span class="list-group-item" onclick = 'cardinalityRatioN(4)'>Ratio: N</span>
-                      
-                    </div>
-                    
-                  </div>
-                    
-                    
-                </div>
-              </div>
-                
-                 <div class="panel panel-default">
-                <div class="panel-heading" id ="title">
-                  <h4 class="panel-title">
-                    <span data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Other</span>
-                  </h4>
-                </div>
-                <div id="collapseFour" class="panel-collapse collapse">
-                  <ul class="list-group">
-                      
-                    <li class="list-group-item" onclick = 'renameElement()'><span>Rename</span></li>
-                    <li class="list-group-item" onclick = 'deleteElement()'><span>Delete</span></li>                      
-                    
-
-                  </ul>
-                </div>
-              </div>
-                
-            </div>
-          </div>
-          <div class="col-sm-9 col-md-9">
+            <div class="dropdown">
+            <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="/page.html">
+                Relationships <span class="caret"></span>
+            </a>
+    		<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
               
+              <li class="dropdown-submenu">
+                <a tabindex="-1" href="javaScript:void(0);">Top</a>
+                <ul class="dropdown-menu">
+                  <li><a href="javaScript:void(0);" onclick = 'connectSingle(1)'>Connect (Partial Participation)</a></li>                  
+                  <li><a href="javaScript:void(0);" onclick = 'connectDouble(1)'>Connect (Total Participation)</a></li>
+                  <li><a href="javaScript:void(0);" onclick = 'removeRelConnection(1)'>Remove</a></li>
+                  <li><a href="javaScript:void(0);" onclick = 'cardinalityRatioOne(1)'>Ratio: 1</a></li>
+                  <li><a href="javaScript:void(0);" onclick = 'cardinalityRatioN(1)'> Ratio: N</a></li>
+                </ul>
+              </li>
+              
+              <li class="dropdown-submenu">
+                <a tabindex="-1" href="javaScript:void(0);">Bottom</a>
+                <ul class="dropdown-menu">
+                  <li><a href="javaScript:void(0);" onclick = 'connectSingle(2)'>Connect (Partial Participation)</a></li>                  
+                  <li><a href="javaScript:void(0);" onclick = 'connectDouble(2)'>Connect (Total Participation)</a></li>
+                  <li><a href="javaScript:void(0);" onclick = 'removeRelConnection(2)'>Remove</a></li>
+                  <li><a href="javaScript:void(0);" onclick = 'cardinalityRatioOne(2)'>Ratio: 1</a></li>
+                  <li><a href="javaScript:void(0);" onclick = 'cardinalityRatioN(2)'> Ratio: N</a></li>
+                </ul>
+              </li>
+              
+              <li class="dropdown-submenu">
+                <a tabindex="-1" href="javaScript:void(0);">Left</a>
+                <ul class="dropdown-menu">
+                  <li><a href="javaScript:void(0);" onclick = 'connectSingle(3)'>Connect (Partial Participation)</a></li>                  
+                  <li><a href="javaScript:void(0);" onclick = 'connectDouble(3)'>Connect (Total Participation)</a></li>
+                  <li><a href="javaScript:void(0);" onclick = 'removeRelConnection(3)'>Remove</a></li>
+                  <li><a href="javaScript:void(0);" onclick = 'cardinalityRatioOne(3)'>Ratio: 1</a></li>
+                  <li><a href="javaScript:void(0);" onclick = 'cardinalityRatioN(3)'> Ratio: N</a></li>
+                </ul>
+              </li>
+              
+              <li class="dropdown-submenu">
+                <a tabindex="-1" href="javaScript:void(0);">Right</a>
+                <ul class="dropdown-menu">
+                  <li><a href="javaScript:void(0);" onclick = 'connectSingle(4)'>Connect (Partial Participation)</a></li>                  
+                  <li><a href="javaScript:void(0);" onclick = 'connectDouble(4)'>Connect (Total Participation)</a></li>
+                  <li><a href="javaScript:void(0);" onclick = 'removeRelConnection(4)'>Remove</a></li>
+                  <li><a href="javaScript:void(0);" onclick = 'cardinalityRatioOne(4)'>Ratio: 1</a></li>
+                  <li><a href="javaScript:void(0);" onclick = 'cardinalityRatioN(4)'> Ratio: N</a></li>
+                </ul>
+              </li>      
+              
+            </ul>
+        </div>  
+            
+            
+            
+             <div class="dropdown">
+            <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="/page.html">
+                Specializations <span class="caret"></span>
+            </a>
+    	    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+              <li><a href="javaScript:void(0);" onclick = 'setSuper(0)'>Set Superclass (Partial)</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'setSuper(1)'>Set Superclass (Total)</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'deleteSuper()'>Remove Superclass</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'defAttribute()'>Set Defining Attribute</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'delDefAttribute()'>Remove Defining Attribute</a></li>
+              
+                        
+                 
+            </ul>
+        </div>      
+            
+             <div class="dropdown">
+            <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="/page.html">
+                Unions <span class="caret"></span>
+            </a>
+    	    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+              <li><a href="javaScript:void(0);" onclick = 'unionSuper()'>Add Superclass</a></li>              
+              <li><a href="javaScript:void(0);" onclick = 'deleteUnionSuper()'>Remove Superclass</a></li>
+              
+                        
+                 
+            </ul>
+        </div>     
+            
+            <div class="dropdown">
+            <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="/page.html">
+                Entities <span class="caret"></span>
+            </a>
+    	    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+              <li><a href="javaScript:void(0);" onclick = 'setSuper()'>Set Superclass</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'deleteSuper()'>Remove Superclass</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'setSpec()'>Set Specialization</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'delSpec()'>Remove Specialization</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'setCriteria()'>Set Defining Criteria</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'delCriteria()'>Remove Defining Criteria</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'setUnion(0)'>Set Union (Partial) </a></li>
+              <li><a href="javaScript:void(0);" onclick = 'setUnion(1)'>Set Union (Total) </a></li>
+              <li><a href="javaScript:void(0);" onclick = 'delUnion()'>Remove Union</a></li>
+              
+                        
+                 
+            </ul>
+        </div>  
+            
+            <div class="dropdown">
+            <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="/page.html">
+                Other <span class="caret"></span>
+            </a>
+    	    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+              <li><a href="javaScript:void(0);" onclick = 'renameElement()'>Rename</a></li>
+              <li><a href="javaScript:void(0);" onclick = 'deleteElement()'>Delete</a></li>
+              <li><a href="index.html" >Clear Canvas</a></li>
+                        
+                 
+            </ul>
+        </div>    
+            
+            <div class="dropdown" style="display:none;">
+            <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="/page.html">
+                Relationships <span class="caret"></span>
+            </a>
+    		<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                    <li><a href="javaScript:void(0);" onclick = 'createRect("entity")'>Entity</a></li>
+              <li><a href="javaScript:void(0);">Some other action</a></li>
+              <li class="divider"></li>
+              <li class="dropdown-submenu">
+                <a tabindex="-1" href="javaScript:void(0);">Hover me for more options</a>
+                <ul class="dropdown-menu">
+                  <li><a tabindex="-1" href="javaScript:void(0);">Second level</a></li>
+                  <li class="dropdown-submenu">
+                    <a href="javaScript:void(0);">Even More..</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="javaScript:void(0);">3rd level</a></li>
+                    	<li><a href="javaScript:void(0);">3rd level</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="javaScript:void(0);">Second level</a></li>
+                  <li><a href="javaScript:void(0);">Second level</a></li>
+                </ul>
+              </li>
+            </ul>
+        </div>     
+        
+	</div>
+    </div>
+            
+            
+      
+    
+          
+              <div class="container">
+                  
               <div  id = "drawing-box" >                
                        
             <svg height="800" width="1300" id = "svg" ></svg>
             
-            <script src="functions.js"></script>
+            
+            
+             
+              <!-- Modal -->
+              <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Select Data Type</h4>
+                    </div>
+                    <div class="modal-body">
+                      <p>Select:</p>
+                      
+    
+                                 <select id="data">
+                                     
+                                    <option value="INTEGER">INTEGER</option>
+                                    <option value="BIGINT">BIGINT</option>
+                                    <option value="SMALLINT">SMALLINT</option>
+                                    <option value="REAL">REAL</option>
+                                    <option value="DOUBLE PRECISION">DOUBLE PRECISION</option>
+                                    <option value="DECIMAL">DECIMAL (i,j) </option>
+                                    <option value="CHARACTER">CHARACTER(n)</option>
+                                    <option value="CHARACTER VARYING">CHARACTER VARYING (n)</option>                                    
+                                    <option value="BIT">BIT (n)</option>
+                                    <option value="BIT VARYING">BIT VARYING (n)</option>
+                                    <option value="BOOLEAN">BOOLEAN</option>
+                                    <option value="XML">XML</option>
+                                    <option value="TIME">TIME</option>
+                                    <option value="DATE">DATE</option>
+                                    <option value="TIMESTAMP">TIMESTAMP</option>
+                                    <option value="INTERVAL">INTERVAL</option>
+                                    
+                                </select>       
+                    
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal" onclick="selectionChange()">OK</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+            
+            
                         
         </div>
             
-          </div>
-        </div>
-
-            
           
-           
-        
         
         
         
@@ -258,7 +333,7 @@
         </div>
         
          
-        
+    <script src="functions.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>    
     </body>

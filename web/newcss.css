@@ -12,10 +12,79 @@ and open the template in the editor.
 
  body{
      
-     margin:30px;
+     
      font-family: 'Ubuntu', sans-serif;
+     
  }
  
+ .glyph{
+    font-size: 20px;
+    
+}
+ 
+ .dropdown {
+     
+     display: inline-block;
+     
+     
+ }
+ 
+ 
+ .btn {
+     
+     background-color: #b3ccff;
+     border: none;
+     color: black;
+     
+ }
+ 
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
  
 .page-header{
     
@@ -23,73 +92,29 @@ and open the template in the editor.
     
 }
 .page-header h1 {
-    
+    padding-top: 20px;
     text-align: center;
-    font-size: 90px;
-    font-family: 'Lobster', sans-serif;
+    font-size: 70px;
+    font-family: 'Martel', sans-serif;
     color: #00001a;
-    text-shadow: 2px 2px #6699ff; 
+   
     
 }
 
-.entities{
+#myNavbar ul{
     
-    text-align: left;
-    
-}
-
-.entities button {
-    
-    background: #afe5ff;
-    border-color: #afe5ff;
-    color: black;
-    font-size: 17px; 
-}
-
-.relationships{
-    
-    text-align: left;
-    
-}
-
-.relationships button {
-    
-    background: white;
-    border-color: black;
-    color: black;
-    font-size: 17px; 
-}
-
-.attributes{
-    
-    text-align: left;
-    
-}
-
-.attributes button {
-    
-    background: #e6ccff;
-    border-color: #e6ccff;
-    color: black;
-    font-size: 17px;
+    padding-left: 35%;
     
     
 }
 
-.other{
+#myNavbar ul li a{
     
-    text-align: left;
+   color: black;
+   font-size: 20px;
     
 }
 
-.other button {
-    
-    border-color: black;
-    background: black;
-    font-size: 17px;
-    
-    
-}
 
 .footer{
     
@@ -102,15 +127,6 @@ and open the template in the editor.
     
 }
 
-.stripe{
-    
-    width: auto;
-    height: 20px;
-    background-color: white;
-    margin-top: auto;
-    margin-bottom: auto;
-    
-}
 
 .jumbotron {
     
@@ -121,7 +137,7 @@ and open the template in the editor.
     
 }
 
-// MENU // 
+
       
 .panel-collapse>.list-group .list-group-item:first-child {
      
@@ -225,7 +241,7 @@ and open the template in the editor.
           
       }
 
-// MENU //
+
 
 
 
@@ -246,8 +262,8 @@ and open the template in the editor.
    border-style: solid;
    border-width: 1px;
    margin-left: auto;
-   margin-right: auto;
-   //box-shadow: 10px 10px 20px #888888;
+   margin-right: auto;   
+   
 }
 
 

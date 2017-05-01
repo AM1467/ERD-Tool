@@ -6,8 +6,8 @@
         
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet"> 
-        <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Martel:700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Martel:700|Ubuntu" rel="stylesheet"> 
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="newcss.css">
         <script src="snap.svg-min.js"></script>
@@ -23,7 +23,7 @@
          </div>
         
         <div id ="header">
-            <nav class="navbar navbar-inverse">
+            <nav class="navbar navbar-inverse" style="background-color: white; border:none; ">
 
                 <div class="container-fluid">
 
@@ -38,7 +38,7 @@
                   <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">
                       <li><a href="index.html"> HOME </a></li>                  
-                      <li class="active"><a href="instructions.html">HOW TO USE</a></li>
+                      <li><a href="instructions.html">HOW TO USE</a></li>
                       <li><a href="https://github.com/AM1467/ERD-Tool/">SOURCE CODE</a></li>
                     </ul>
 
@@ -61,16 +61,22 @@
                 <p>How to use:</p>
                     
                      <ul>
-                        <li><strong>Creating</strong> an entity/attribute/relationship: Click on any of the buttons under the New submenu. You will be asked to provide a name.</li>
+                        <li><strong>Creating</strong> a new object: Click on any of the buttons under the New submenu. You will be asked to provide a name.</li>
                         <br>  
-                        <li><strong>Rename/Delete</strong> an object by clicking on the Rename button, and then click on the object you want to rename or delete.</li>
+                        <li><strong>Rename/Delete</strong> an object by selecting an option under the Other submenu, and then click on the object you want to rename or delete.</li>
                         <br>  
                         <li><strong>Connect</strong> an attribute to its owner with the Set Attribute Owner button. First click on the attribute and then on its owner. (In this order.)</li>
                         <br>  
-                        <li><strong>Change</strong> an attribute's properties by clicking on a property (for example "Unique") and click on the corresponding attribute.</li>
+                        <li><strong>Change</strong> an attribute's properties by clicking on a property (for example "Unique") under the Attributes submenu, and click on the corresponding attribute. You can change an attribute's data type in the same way.</li>
                         <br> 
                         <li><strong>Connect</strong> a relationship with an entity by using the buttons under the Relationships submenu. First click on the relationship shape and then on the entity. (In this order.)</li>
                         <br> 
+                        <li><strong>Specializations:</strong> you can set the superclass for a specialization by using the options under the submenu. After you click on "Set Superclass" select your specialization and then an entity. You can also remove a superclass, or set/remove a defining attribute of a specialization-superclass connection. </li>
+                        <br> 
+                        <li><strong>Unions:</strong> you can set a superclass for a Union by clicking on "Set Superclass" and then selecting your Union and Entity. A Union can have multiple superclasses, but only one subclass.</li>
+                        <br>                        
+                        <li><strong>Entities:</strong> you can set a superclass for an entity by clicking on the "Set Superclass" option, then selecting your subclass and a superclass entity. Remove that superclass by selecting the corresponding option and clicking on the subclass. You can set specializations and unions in the same way. An entity can belong to multiple specializations/unions. So, to remove such a connection, click on "Remove Specialization (or Union)" and then select your entity and the specialization/union it belongs to. You can add/remove Defining Criteria in the same way.</li>
+                        <br>
                         <li>You can <strong>move</strong> an object around with click & drag. To <strong>resize</strong> a shape, double-click on it once and drag to any direction. Double-click again to stop resizing. </li>
                       </ul> 
                 
