@@ -14,8 +14,13 @@ and open the template in the editor.
      
      
      font-family: 'Ubuntu', sans-serif;
+     font-size: 12px;
      
  }
+ 
+ body,html{height:100%}
+ 
+ 
  
  .glyph{
     font-size: 20px;
@@ -89,22 +94,20 @@ and open the template in the editor.
 .page-header{
     
     background: #e5ecff;
+    margin-top: 0px;
     
 }
 .page-header h1 {
     padding-top: 20px;
     text-align: center;
-    font-size: 70px;
+    font-size: 30px;
     font-family: 'Martel', sans-serif;
-    color: #00001a;
-   
-    
+    color: #00001a;   
 }
 
 #myNavbar ul{
     
-    padding-left: 35%;
-    
+    padding-left: 35%;    
     
 }
 
@@ -131,12 +134,16 @@ and open the template in the editor.
 .jumbotron {
     
     width:auto;
-    background-color: white;  
-    
-    font-size: 18px;
+    background-color: white;   
+    font-size: 16px;
     
 }
 
+a:hover{
+    
+    text-decoration:none;
+    
+}
 
       
 .panel-collapse>.list-group .list-group-item:first-child {
@@ -243,7 +250,11 @@ and open the template in the editor.
 
 
 
-
+      .btn{
+          
+          background-color: #e5ecff;
+          
+      }
 
 .btn-primary{
     
@@ -256,8 +267,9 @@ and open the template in the editor.
 
 #drawing-box{
     
-   height: 800px; 
-   width:  1300px; 
+   height: 75%; 
+   width:  80%; 
+   position: relative;
    background-color: #f2f4f3;    
    border-style: solid;
    border-width: 1px;

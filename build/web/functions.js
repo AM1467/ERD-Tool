@@ -1,23 +1,34 @@
-                     
-                          
-                          function createRect(rect_type){     
-                              
-                            var string = prompt("Please enter a name for this Entity.", "Undefined");  // ask for name
+
+
+                            // Get height & width of container //
+
+
+                            var divHeight = document.getElementById('drawing-box').clientHeight;
+                           
+
+                            var divWidth = document.getElementById('drawing-box').clientWidth;
                             
-                            if (string == null) {
-                                     
-                                     string = "Undefined";
-                                        
-                                 }
-                                 
-                            string = string.replace(/ /g,"_");     
+                            
+                            basic_y = Math.floor(divHeight/2) - 30;
+                            basic_x = Math.floor(divWidth/2) - 100;
+                            
+                            var entity_counter = 0;
+                            
+                            var attribute_counter = 0;
+                            
+                            var relationship_counter = 0;
+
+                          
+                          function createRect(rect_type){  
                               
                             var r = Snap('#svg');
                             
+                            entity_counter++; 
+                            
                             if(rect_type === "entity"){                            
                             
-                                var newRect = r.rect(100,100,110,55);
-                                newRect.attr({                            
+                                var newRect = r.rect(basic_x + entity_counter,basic_y + entity_counter,110,55);
+                                newRect.attr({                                   
                                     fill:'#ccffe6',
                                     stroke:'#000',
                                     strokeWidth: 2
@@ -27,14 +38,14 @@
                             
                             else if (rect_type === "weak_entity"){
                                     
-                                var outerBorder = r.rect(100,100,110,55);
+                                var outerBorder = r.rect(basic_x + entity_counter,basic_y + entity_counter,110,55);
                                 outerBorder.attr({                            
                                     fill:'#ccffe6',
                                     stroke:'#000',
                                     strokeWidth: 2
                                 });                                           
                                 
-                                var innerBorder = r.rect(107,105,96,45);
+                                var innerBorder = r.rect(basic_x + entity_counter + 7,basic_y + entity_counter + 5,96,45);
                                 innerBorder.attr({                              
                                     fill:'#ccffe6',
                                     stroke:'#000',
@@ -45,7 +56,14 @@
                                       
                               }
                               
-                            newRect.name = string; 
+                             
+                             newRect.attr({
+                                
+                             id: "entity"
+                             
+                            })          
+                          
+                            newRect.name = "entity_" + entity_counter; 
                             var bb2 = newRect.getBBox();
                             var t1 = r.text(bb2.cx, bb2.cy, newRect.name);
                                                        
@@ -93,7 +111,7 @@
     
                                     pos = newRect.getBBox();                                    
                                 
-                                    if(pos.cx < 0 || pos.cx > 1300 || pos.cy <0 || pos.cy > 800){                                
+                                    if(pos.cx < 0 || pos.cx > divWidth || pos.cy <0 || pos.cy > divHeight){                                
       
                                         newRect.animate({
                                             transform: 'T0 10 s1 1'
@@ -119,7 +137,7 @@
                             var c = Snap('#svg');                            
                             
                                 
-                                var newCircle = c.circle(420,120,25);
+                                var newCircle = c.circle(basic_x,basic_y,25);
                                 newCircle.attr({                            
                                     fill:'#f2f4f3',
                                     stroke:'#000',
@@ -131,18 +149,32 @@
                             if(c_type === "disjoint"){
                                 
                                newCircle.name = "d";  
+                               
+                               newCircle.attr({                            
+                                    id: "spec"
+                                    
+                                }); 
                                 
                             }
                             
                             else if(c_type === "overlapping"){
                                 
-                               newCircle.name = "o";  
+                               newCircle.name = "o"; 
+                               
+                               newCircle.attr({                            
+                                    id: "spec"                                    
+                                }); 
                                 
                             }
                             
                             else if(c_type === "union"){
                                 
                                newCircle.name = "U";  
+                               
+                               newCircle.attr({                            
+                                    id: "union"
+                                    
+                                }); 
                                 
                             }
                             
@@ -162,7 +194,7 @@
                             // for unions
                             
                             newCircle.sub = 0;
-                            newCircle.unionLine = 0;
+                            newCircle.unionLine = 0;      // allows union to only have one subclass
                            
                             newCircle.click( this.clickTrigger );
                             
@@ -172,7 +204,7 @@
     
                                     pos = newCircle.getBBox();                                    
                                 
-                                    if(pos.cx < 0 || pos.cx > 1300 || pos.cy <0 || pos.cy > 800){                                
+                                    if(pos.cx < 0 || pos.cx > divWidth || pos.cy <0 || pos.cy > divHeight){                                
       
                                         newCircle.animate({
                                             transform: 'T0 0 s1 1'
@@ -194,23 +226,16 @@
                          
                          
                          
-                         function createEllipse(ell_type){            
-                             
-                            var string = prompt("Please enter a name for this Attribute.", "Undefined");  // ask for name
-                            
-                            if (string == null) {
-                                     
-                                     string = "Undefined";
-                                        
-                                 }
-                                 
-                            string = string.replace(/ /g,"_");
+                         function createEllipse(ell_type){                    
+                           
                              
                             var e = Snap('#svg');
                             
+                            attribute_counter++;
+                            
                             if(ell_type === "attribute"){
                                 
-                                var newEllipse = e.ellipse(720,120,60,25);
+                                var newEllipse = e.ellipse(basic_x + attribute_counter,basic_y + attribute_counter,60,25);
                                 newEllipse.attr({                            
                                     fill:'#e6ccff',
                                     stroke:'#000',
@@ -221,7 +246,7 @@
                             
                             else if (ell_type === "derived_attribute"){
                                 
-                                var newEllipse = e.ellipse(720,120,60,25);
+                                var newEllipse = e.ellipse(basic_x + attribute_counter,basic_y + attribute_counter,60,25);
                                 newEllipse.attr({                            
                                     fill:'#e6ccff',
                                     stroke:'#000',
@@ -234,14 +259,14 @@
                             
                              else if (ell_type === "multi_attribute"){                                
                                 
-                                var outerEllipse = e.ellipse(720,120,60,25);
+                                var outerEllipse = e.ellipse(basic_x + attribute_counter,basic_y + attribute_counter,60,25);
                                 outerEllipse.attr({                            
                                     fill:'#e6ccff',
                                     stroke:'#000',
                                     strokeWidth: 2
                                 });      
                                 
-                                var innerEllipse = e.ellipse(720,120,51,19);
+                                var innerEllipse = e.ellipse(basic_x + attribute_counter,basic_y + attribute_counter,51,19);
                                 innerEllipse.attr({                            
                                     fill:'#e6ccff',
                                     stroke:'#000',
@@ -253,7 +278,13 @@
                                 
                             }           
                             
-                             newEllipse.name = string; 
+                            newEllipse.attr({
+                                
+                             id: "attribute"
+                             
+                            })  
+                             
+                             newEllipse.name = "attribute_" + attribute_counter;
                              var bb2 = newEllipse.getBBox();                       
                              var t1 = e.text(bb2.cx, bb2.cy, newEllipse.name);
                             
@@ -277,7 +308,7 @@
     
                                     pos = newEllipse.getBBox();                                    
                                 
-                                    if(pos.cx < 0 || pos.cx > 1300 || pos.cy <0 || pos.cy > 800){                                
+                                    if(pos.cx < 0 || pos.cx > divWidth || pos.cy <0 || pos.cy > divHeight){                                
       
                                         newEllipse.animate({
                                             transform: 'T0 0 s1 1'
@@ -321,23 +352,15 @@
                                                  
                          
                          
-                         function createRhombus(rhombus_type){
-                             
-                            var string = prompt("Please enter a name for this Attribute.", "Undefined");  // ask for name
-                            
-                            if (string == null) {
-                                     
-                                     string = "Undefined";
-                                        
-                                 }    
-                                 
-                             string = string.replace(/ /g,"_");     
+                         function createRhombus(rhombus_type){                            
                              
                             var r = Snap('#svg');
                             
+                            relationship_counter ++;
+                            
                             if(rhombus_type === "relationship"){
                             
-                                var newRhombus = r.rect(1020,80,75,75);
+                                var newRhombus = r.rect(basic_x + relationship_counter,basic_y + relationship_counter,75,75);
                                 newRhombus.attr({                            
                                     fill:'#ffffff',
                                     stroke:'#000',
@@ -348,14 +371,14 @@
                              
                              else if (rhombus_type === "identifying_rel"){
                                  
-                                  var outerBorder = r.rect(1020,80,75,75);
+                                  var outerBorder = r.rect(basic_x + relationship_counter,basic_y + relationship_counter,75,75);
                                 outerBorder.attr({                            
                                     fill:'#ffffff',
                                     stroke:'#000',
                                     strokeWidth: 2
                                 });                                         
                                 
-                                var innerBorder = r.rect(1028,88,60,60);
+                                var innerBorder = r.rect(basic_x + relationship_counter + 8,basic_y + relationship_counter + 8,60,60);
                                 innerBorder.attr({                            
                                     fill:'#ffffff',
                                     stroke:'#000',
@@ -367,13 +390,17 @@
                                  
                              }
                             
-                            newRhombus.transform( 'r45,1020,80' );      // rotate
-                            
-                            newRhombus.name = string; 
+                            newRhombus.transform( 'r45,basic_x,basic_y' );      // rotate
+                            newRhombus.attr({                            
+                                    id: "relationship"
+                                });                  
+                            newRhombus.name = "rel_" + relationship_counter; 
                             
                             var bb2 = newRhombus.getBBox();
                             var t1 = r.text(bb2.cx, bb2.cy, newRhombus.name);
                             
+                            
+
                             newRhombus.text = t1;        
                             newRhombus.attributes = [];     // list of  attribute lines connected to this shape   
                             
@@ -397,10 +424,10 @@
     
                                     pos = newRhombus.getBBox();                                    
                                 
-                                    if(pos.cx < 0 || pos.cx > 1300 || pos.cy <0 || pos.cy > 800){                                
+                                    if(pos.cx < 0 || pos.cx > divWidth || pos.cy <0 || pos.cy > divHeight){                                
       
                                         newRhombus.animate({
-                                            transform: 'T0 0 s1 1 r45,1020,80'
+                                            transform: 'T0 0 s1 1 r45,basic_x,basic_y'
                                         }, 300, mina.easeinout);        
                                     };   
                                     
@@ -455,50 +482,16 @@
                             
                             function stop() {}; 
                             
-                            var del = 0; // for deleting
                             
-                            var line_cr = 0; // for line connection      
                             
-                            var rename_toggle = 0; // for renaming
+                            var line_cr = 0; // for line connection  
                             
-                            var remove_owner_toggle = 0; // for removing attribute connection 
-                            
-                            var primary_toggle = 0;  // for primary
-                            
-                            var neg_primary_toggle = 0;  // for primary
-                            
-                            var unique_toggle = 0; // for unique
-                            
-                            var neg_unique_toggle = 0; // for unique
-                            
-                            var not_null_toggle = 0;  // null or not null
-                            
-                            var sConnect = 0;  // for partial participation 
+                            var sConnect = 0;  // for partial participation (relationships)
                             
                             var edge = 0;    
                             
-                            var dConnect = 0; // for total participation  
-                            
-                            var remove_rel_connection = 0;
-                            
-                            var target_edge = 0;
-                            
-                            var change_ratio_to_one = 0;
-                            
-                            var change_ratio_to_N = 0;
-                            
-                            var ratio_edge = 0;  // for cardinality ratio
-                            
-                            var set_data = 0; // data type
-                            
-                            var v = "INTEGER";
-                            
-                            var n_input = 1;
-                            
-                            var i_input= 0;
-                      
-                            var j_input = 0;
-                            
+                            var dConnect = 0; // for total participation  (relationships)
+                           
                             var set_super = 0;
                             
                             var set_spec = 0;
@@ -517,244 +510,17 @@
                             
                             var union_double = 0;
                             
-                            var remove_super_toggle = 0;
-                            
                             var def_attribute = 0;
+                            
+                            var del_def_attribute = 0;
                             
                             var set_criteria = 0;
                             
                             var del_criteria = 0;
-                            
-                            var del_def_attribute = 0;
-                            
-                            var startP, endP; 
-                            
-                             function setCriteria() {
-                                
-                                set_criteria = 1;                      
-                                
-                                
-                            };
-                            
-                            function delCriteria() {
-                                
-                                del_criteria = 1;                      
-                                
-                                
-                            };
-                            
-                            function defAttribute() {
-                                
-                                def_attribute = 1;                      
-                                
-                                
-                            };
-                            
-                            function delDefAttribute() {
-                                
-                                del_def_attribute = 1;                      
-                                
-                                
-                            };
-                            
-                            function setSuper(temp) {
-                                
-                                set_super = 1;   
-                                
-                                super_double = temp;
-                                
-                                
-                            };
-                            
-                            function setUnion(temp) {
-                                
-                                set_union = 1;   
-                                
-                                union_double = temp;
-                                
-                                
-                            };
-                            
-                            function delSpec() {
-                                
-                                remove_spec = 1;   
-                                
-                                
-                            };
-                            
-                            function delUnion() {
-                                
-                                remove_union = 1;   
-                                
-                                
-                            };
-                            
-                            
-                            function setSpec() {
-                                
-                                set_spec = 1;                      
-                                
-                                
-                            };
-                            
-                            function deleteSuper(){
-                                
-                                remove_super_toggle = 1;
-                                
-                            };
-                            
-                             function unionSuper() {
-                                
-                                union_super = 1;                      
-                                
-                                
-                            };
-                            
-                            function deleteUnionSuper() {
-                                
-                                del_union_super = 1;                      
-                                
-                                
-                            };
-                            
-                           function selectionChange(){
-                               
-                               
-                               v = document.getElementById("data").value;
-                               
-                               if (v === "BIT"  || v === "BIT VARYING" || v === "CHARACTER" || v === "VARYING CHARACTER"){
-                                   
-                                   var str = prompt("Please enter a value for n: ");
-                                   
-                                   n_input = Math.floor(Number(str));                                  
-                                   
-                                   
-                               }
-                               
-                               else if (v === "DECIMAL"){
-                                   
-                                   var str = prompt("Please enter a value for precision i:  ");
-                                   
-                                   i_input = Math.floor(Number(str));                                  
-                                   
-                                   var str = prompt("Please enter a value for scale j:  ");
-                                   
-                                   j_input = Math.floor(Number(str));
-                                   
-                               }
-                               
-                               
-                           };
-                            
-                            function setData(){
-                                
-                                set_data = 1;
-                                
-                                 $("#myModal").modal();
-                                
-                            }
-                            
-                            
-                            function cardinalityRatioOne(temp){
-                                
-                                ratio_edge = temp;      
-                                change_ratio_to_one = 1;                                
-                                
-                            }
                            
-                           function cardinalityRatioN(temp){
-                                
-                                ratio_edge = temp;      
-                                change_ratio_to_N = 1;                                
-                                
-                            }
+                            var startP, endP;   // for lines
                             
-                           
-                            function removeRelConnection(temp){
-                                
-                              target_edge = temp;
-                              remove_rel_connection = 1;                                
-                                
-                            };
-                            
-                             function connectSingle(temp) {
-                                
-                                 sConnect = 1;      
-                                 edge = temp;
-                                                             
-                            };
-                            
-                            function connectDouble(temp) {
-                                
-                                 dConnect = 1;      
-                                 edge = temp;                                      
-                                                     
-                            };
-                            
-                            function deleteElement() {
-                                
-                                 del = 1;                                 
-                                
-                            };
-                            
-                             function setPrimary(state) {
-                                 
-                                 if( state === 1){
-                                
-                                 primary_toggle = 1; 
-                                 
-                                 }
-                                 
-                                 else if (state === 0){
-                                     
-                                    neg_primary_toggle = 1; 
-                                     
-                                 }
-                                
-                            };
-                            
-                              function setUnique(state) {
-                                
-                                 if( state === 1){
-                                
-                                 unique_toggle = 1; 
-                                 
-                                 }
-                                 
-                                 else if (state === 0){
-                                     
-                                    neg_unique_toggle = 1; 
-                                     
-                                 }                                
-                                
-                            };
-                            
-                            function setNotNull() {
-                                
-                                 not_null_toggle = 1;                                 
-                                
-                            };
-                          
-                            function removeOwner(){
-                                
-                               remove_owner_toggle = 1;                                
-                                
-                            }
-                            
-                            function renameElement(){                     
-                              
-                             rename_toggle = 1; 
-                                
-                            }
-                            
-                            function setLine(){                         
-  
-                                 if (line_cr === 0){
-                                    line_cr = 1;                                                                       
-                                }  
-  
-                            };                    
-                                                  
+                                               
                          
                             var lsvg = Snap('#svg');
                             
@@ -764,695 +530,12 @@
                                 });  
                                 
                          function clickTrigger () {                         
-                              
-                             
-                               if((change_ratio_to_one === 1) && (this.type === "relationship" || this.type === "identifying_rel")){
-                                   
-                                   switch (ratio_edge){
-                                     case 1:
-                                         
-                                        if( this.topLine !== 0){
-                                          
-                                            this.topLine.ratio = "1";                                                                               
-                                            
-                                        }
-                                    break; 
                                 
-                                    case 2:
-                                         
-                                        if( this.botLine !== 0){
-                                            
-                                           this.botLine.ratio = "1";                                         
-                                            
-                                        }
-                                    break;                              
-                                     
-                                     case 3:
-                                         
-                                         if( this.leftLine !== 0){
-                                            
-                                           this.leftLine.ratio = "1";  
-                                           
-                                        }
-                                    break; 
-                                
-                                    case 4:
-                                         
-                                        if( this.rightLine !== 0){
-                                          
-                                             this.rightLine.ratio = "1";    
-                                            
-                                        }
-                                        
-                                    break;
-                                        
-                                        
-                                    }
-                                    
-                                    ratio_edge = 0;
-                                    change_ratio_to_one = 0;                     
-                                   
-                                   
-                               }
-                               
-                               else if((change_ratio_to_N === 1) && (this.type === "relationship" || this.type === "identifying_rel")){
-                                   
-                                   switch (ratio_edge){
-                                     case 1:
-                                         
-                                        if( this.topLine !== 0){
-                                          
-                                            this.topLine.ratio = "N";                                                                               
-                                            
-                                        }
-                                    break; 
-                                
-                                    case 2:
-                                         
-                                        if( this.botLine !== 0){
-                                            
-                                           this.botLine.ratio = "N";                                         
-                                            
-                                        }
-                                    break;                              
-                                     
-                                     case 3:
-                                         
-                                         if( this.leftLine !== 0){
-                                            
-                                           this.leftLine.ratio = "N";  
-                                           
-                                        }
-                                    break; 
-                                
-                                    case 4:
-                                         
-                                        if( this.rightLine !== 0){
-                                          
-                                             this.rightLine.ratio = "N";    
-                                            
-                                        }
-                                        
-                                    break;
-                                        
-                                        
-                                    }
-                                    
-                                    ratio_edge = 0;
-                                    change_ratio_to_N = 0;                     
-                                   
-                                   
-                               }
-                             
-                               else if ((remove_rel_connection === 1) && (this.type === "relationship" || this.type === "identifying_rel")){
-                                   
-                                   switch (target_edge){
-                                     case 1:
-                                         
-                                        if( this.topLine !== 0){
-                                            
-                                            var indexE = this.topEntity.relationships.indexOf(this.topLine);  // remove old connection first
-                                            this.topEntity.attributes.splice(indexE);  
-                                            
-                                            if(this.topLine.companion !== 0){                                             
-                                              
-                                                this.topLine.companion.remove();                                             
-                                            }   
-                                            
-                                            this.topLine.text.remove();
-                                            this.topLine.remove();
-                                            this.topEntity = 0;                                            
-                                            
-                                        }
-                                    break; 
-                                
-                                    case 2:
-                                         
-                                        if( this.botLine !== 0){
-                                            
-                                            var indexE = this.botEntity.relationships.indexOf(this.botLine);  // remove old connection first
-                                            this.botEntity.attributes.splice(indexE); 
-                                            
-                                            if(this.botLine.companion !== 0){                                             
-                                              
-                                                this.botLine.companion.remove();   
-                                                
-                                            }   
-                                            
-                                            this.botLine.text.remove();
-                                            this.botLine.remove();
-                                            this.botEntity = 0;                                            
-                                            
-                                        }
-                                    break;                              
-                                     
-                                     case 3:
-                                         
-                                         if( this.leftLine !== 0){
-                                            
-                                            var indexE = this.leftEntity.relationships.indexOf(this.leftLine);  // remove old connection first
-                                            this.leftEntity.attributes.splice(indexE);    
-                                            
-                                            if(this.leftLine.companion !== 0){                                             
-                                              
-                                                this.leftLine.companion.remove();                                             
-                                            }   
-                                            
-                                            this.leftLine.text.remove();
-                                            this.leftLine.remove();
-                                            this.leftEntity = 0;                                            
-                                            
-                                        }
-                                    break; 
-                                
-                                    case 4:
-                                         
-                                        if( this.rightLine !== 0){
-                                            
-                                            var indexE = this.rightEntity.relationships.indexOf(this.rightLine);  // remove old connection first
-                                            this.rightEntity.attributes.splice(indexE);  
-                                            
-                                            if(this.rightLine.companion !== 0){                                             
-                                              
-                                                this.rightLine.companion.remove();    
-                                                
-                                            }   
-                                            
-                                            this.rightLine.text.remove();
-                                            this.rightLine.remove();
-                                            this.rightEntity = 0;                                            
-                                            
-                                        }
-                                        
-                                    break;
-                                        
-                                        
-                                    }
-                                    
-                                    target_edge = 0;
-                                    remove_rel_connection = 0;                                   
-                                   
-                                   
-                               }
-                               
-                               
-                                else if (del === 1){ 
-                                    
-                                    // we need to remove the connecting line from the other point as well
-                                    // figure whether the "target" shape is a start or an end point
-                                    
-                                    if(this.type === "entity" || this.type === "weak_entity"){    
-                                       
-                                        for(i=0; i<this.attributes.length; i++){        // set "owner" of all attributes = 0
-                                            
-                                                this.attributes[i].start.owner = 0;  
-                                                this.attributes[i].start.ownerLine = 0; 
-                                                this.attributes[i].remove();                                                                             
-
-                                        }
-                                        
-                                         for(i=0; i<this.unions.length; i++){        // set "sub" of all unions = 0
-                                            
-                                                this.unions[i].end.sub = 0;  
-                                                this.unions[i].end.unionLine = 0;
-                                                  
-                                                
-                                                 if(this.unions[i].companion !== 0){    // remove double line, if total particilation                                            
-                                              
-                                                     this.unions[i].companion.remove(); 
-                                                     
-                                                }   
-                                                
-                                                 this.unions[i].remove(); 
-
-                                        }
-                                        
-                                         for(i=0; i<this.subs.length; i++){        // set "super" of all entities = 0
-                                            
-                                             
-                                                this.subs[i].start.super = 0;
-                                                this.subs[i].start.superLine = 0;  
-                                                this.subs[i].remove();    
-                                                
-                                                
-
-                                        }
-                                        
-                                        
-                                         for(i=0; i<this.specializations.length; i++){        // set "super" of all specializations = 0
-                                            
-                                               
-                                                    if(this.specializations[i].start.superLine.attribute !== 0){
-
-                                                     this.specializations[i].start.superLine.text.remove();
-                                                     this.specializations[i].start.superLine.attribute = 0;
-
-                                                 }
-                                                 
-                                                 if(this.specializations[i].start.superLine.companion !== 0){
-
-                                                     this.specializations[i].start.superLine.companion.remove();
-                                                     this.specializations[i].start.superLine.companion = 0;
-
-                                                 }
-                                               
-                                                this.specializations[i].start.super = 0; 
-                                                this.specializations[i].start.superLine = 0;
-                                                this.specializations[i].remove();    
-                                                
-                                                
-
-                                        }
-                                        
-                                        for(i=0; i<this.super_specializations.length; i++){ 
-                                            
-                                            
-                                                   var indexE = this.super_specializations[i].end.subs.indexOf(this.super_specializations[i]);  // find position of line within super's subclasses list
-                                                   this.super_specializations[i].end.subs.splice(indexE); 
-                                                   // remove element with that position from subclasses list    
-                                                   if(this.super_specializations[i].criteria !== 0){
-                                                
-
-                                                        this.super_specializations[i].criteria = 0; 
-                                                        this.super_specializations[i].text.remove();
-
-                                                    }
-                                                   
-                                                   this.super_specializations[i].remove();                                                         
-                                                   
-                                                   
-
-                                        }
-                                        
-                                        for(i=0; i<this.union_subs.length; i++){        
-                                            
-                                                   var indexE = this.union_subs[i].start.supers.indexOf(this.union_subs[i]);  // find position of line within super's subclasses list
-                                                   this.union_subs[i].start.supers.splice(indexE);                         // remove element with that position from subclasses list                                   
-                                                   this.union_subs[i].remove();                                                         
-
-                                        }
-                                        
-                                        if( this.super !== 0){
-                                            
-                                            var indexE = this.super.subs.indexOf(this.superLine);  // find position of line within super's subclasses list
-                                            this.super.subs.splice(indexE);                         // remove element with that position from subclasses list                                   
-                                            this.superLine.remove();
-                                            
-                                        }   
-                                        
-                                        for(i=0; i<this.relationships.length; i++){ 
-                                            
-                                                if(this.relationships[i].start.topEntity === this){
-
-                                                        this.relationships[i].start.topLine = 0;         
-                                                        this.relationships[i].start.topEntity = 0; 
-
-
-                                                    }
-                                                    
-                                                   if(this.relationships[i].start.botEntity === this){
-                                                    
-                                                    this.relationships[i].start.botLine = 0;         
-                                                    this.relationships[i].start.botEntity = 0; 
-                                                                                     
-                                                    
-                                                }
-                                            
-                                            
-                                                if(this.relationships[i].start.leftEntity === this){
-                                                    
-                                                    this.relationships[i].start.leftLine = 0;         
-                                                    this.relationships[i].start.leftEntity = 0; 
-                                                                                     
-                                                    
-                                                }
-                                                
-                                                if(this.relationships[i].start.rightEntity === this){
-                                                    
-                                                    this.relationships[i].start.rightLine = 0;        
-                                                    this.relationships[i].start.rightEntity = 0; 
-                                                                                     
-                                                    
-                                                }
-                                                
-                                                if(this.relationships[i].companion !== 0){    // remove double line, if total particilation                                            
-                                              
-                                                     this.relationships[i].companion.remove(); 
-                                                     
-                                                }    
-                                                
-                                                this.relationships[i].text.remove();
-                                                this.relationships[i].remove();                                                           
-
-                                        }   
-                                    
-                                 }
-                                 
-                                 else if (this.type === "disjoint" || this.type === "overlapping"){
-                                     
-                                     if( this.super !== 0){
-                                            
-                                            var indexE = this.super.specializations.indexOf(this.superLine);  // find position of line within super's subclasses list
-                                            this.super.specializations.splice(indexE);                         // remove element with that position from specializations list                                   
-                                             
-                                            if(this.superLine.companion !== 0){                                             
-                                              
-                                                this.superLine.companion.remove();                                             
-                                            } 
-                                            
-                                            if(this.superLine.attribute !== 0){
-                                                
-                                                this.superLine.text.remove();
-                                                this.superLine.attribute = 0;
-                                                
-                                            }    
-                                         
-                                            this.superLine.remove();
-                                            
-                                            
-                                        }   
-                                        
-                                        for(i=0; i<this.subs.length; i++){        
-                                            
-                                                   var indexE = this.subs[i].start.super_specializations.indexOf(this.subs[i]);  // find position of line within super's subclasses list
-                                                   this.subs[i].start.super_specializations.splice(indexE);                         // remove element with that position from subclasses list                                   
-                                                   
-                                                   if(this.subs[i].criteria !== 0){
-                                                
-
-                                                        this.subs[i].criteria = 0; 
-                                                        this.subs[i].text.remove();
-
-                                                    }
-                                         
-                                         
-                                                    this.subs[i].remove();                                                         
-
-                                        }
-                                     
-                                 }
-                                 
-                                 else if (this.type === "union"){
-                                     
-                                     if(this.sub !== 0){
-                                         
-                                         var indexE = this.sub.unions.indexOf(this.unionLine);  // find position of line within super's subclasses list
-                                     this.sub.unions.splice(indexE);                         // remove element with that position from specializations list                                   
-                                             
-                                            if(this.unionLine.companion !== 0){                                             
-                                              
-                                                this.unionLine.companion.remove();                                             
-                                            }   
-                                         
-                                            this.unionLine.remove();                      
-                                         
-                                     }
-                                     
-                                     for(i=0; i<this.supers.length; i++){        
-                                            
-                                                   var indexE = this.supers[i].end.union_subs.indexOf(this.supers[i]);  // find position of line within super's subclasses list
-                                                   this.supers[i].end.union_subs.splice(indexE);                         // remove element with that position from subclasses list                                   
-                                                   this.supers[i].remove();                                                         
-
-                                        }
-                                     
-                                 }
-                                 
-                                 
-                                 else if(this.type === "relationship" || this.type === "identifying_rel"){    
-                                        
-                                        
-                                        for(i=0; i<this.attributes.length; i++){        // set "owner" of all attributes = 0
-                                            
-                                                this.attributes[i].start.owner = 0;         // start point of the line will always be the child
-                                                this.attributes[i].remove();                // remove line                                                               
-
-                                        }  
-                                        
-                                        if( this.topEntity !== 0){
-                                            
-                                            var indexE = this.topEntity.relationships.indexOf(this.topLine);  // find position of line within owner's relationships list
-                                            this.topEntity.relationships.splice(indexE);                         // remove element with that position from relationships list                                   
-                                            
-                                         if(this.topLine.companion !== 0){                                             
-                                              
-                                                this.topLine.companion.remove();                                             
-                                         }          
-                                         
-                                         
-                                            this.topLine.text.remove();
-                                            this.topLine.remove();
-                                            
-                                        }  
-                                        
-                                        if( this.botEntity !== 0){
-                                            
-                                            var indexE = this.botEntity.relationships.indexOf(this.botLine);  // find position of line within owner's relationships list
-                                            this.botEntity.relationships.splice(indexE);                         // remove element with that position from relationships list                                   
-                                            
-                                         if(this.botLine.companion !== 0){                                             
-                                              
-                                                this.botLine.companion.remove();                                             
-                                         }        
-                                         
-                                            this.botLine.text.remove();
-                                            this.botLine.remove();
-                                            
-                                        }        
-                                        
-                                        if( this.leftEntity !== 0){
-                                            
-                                            var indexE = this.leftEntity.relationships.indexOf(this.leftLine);  // find position of line within owner's relationships list
-                                            this.leftEntity.relationships.splice(indexE);                         // remove element with that position from relationships list                                   
-                                            
-                                         if(this.leftLine.companion !== 0){                                             
-                                              
-                                                this.leftLine.companion.remove();
-                                             
-                                         }
-                                        
-                                            this.leftLine.text.remove();
-                                            this.leftLine.remove();
-                                            
-                                        }    
-                                        
-                                        if( this.rightEntity !== 0){
-                                            
-                                            var indexE = this.rightEntity.relationships.indexOf(this.rightLine);  // find position of line within owner's relationships list
-                                            this.rightEntity.relationships.splice(indexE);                         // remove element with that position from relationships list                                   
-                                            
-                                         if(this.rightLine.companion !== 0){                                             
-                                              
-                                                this.rightLine.companion.remove();                                             
-                                         }      
-                                         
-                                            this.rightLine.text.remove();
-                                            this.rightLine.remove();
-                                            
-                                        }        
-                                    
-                                 }
-                                 
-                                 
-                                 else if(this.type === "attribute" || this.type === "derived_attribute" || this.type === "multi_attribute"){                                     
-                                     
-                                     
-                                     for(i=0; i<this.attributes.length; i++){        // set "owner" of all attributes = 0
-                                            
-                                                this.attributes[i].start.owner = 0;         // start point of the line will always be the child 
-                                                this.attributes[i].remove();                // remove line                                                               
-
-                                        }
-                                        
-                                        if( this.owner !== 0){
-                                            
-                                            var indexE = this.owner.attributes.indexOf(this.ownerLine);  // find position of line within owner's attributes list
-                                            this.owner.attributes.splice(indexE);                         // remove element with that position from attributes list                                   
-                                            this.ownerLine.remove();
-                                            
-                                        }                            
-                                     
-                                 }
-                                   
-                                    del = 0;
-                                    this.text.remove;                             // remove name
-                                    this.remove();                                // remove target  
-                                    
-                                }  
-                                
-                                
-                                
-                                
-                                
-                                else if(primary_toggle === 1 && (this.type === "attribute" || this.type === "derived_attribute" || this.type === "multi_attribute")){                                                           
-                                    
-                                    
-                                    if( this.owner !== 0){                                     
-                                        
-                                        
-                                       var size = this.owner.attributes.length;
-                                       
-                                       
-                                       for(i=0; i<size; i++){        // set other attributes of the same owner as "non primary"
-                                            
-                                            this.owner.attributes[i].start.primary = false;                                                                                                      
-
-                                        }                                   
-                                    }                            
-                                    
-                                    this.primary = true;                        
-
-                                    primary_toggle = 0;                               
-                                    
-                                }
-                                
-                                
-                                    else if(set_data === 1 && (this.type === "attribute" || this.type === "derived_attribute" || this.type === "multi_attribute")){                                                           
-                                    
-                                    if (v === "BIT" || v === "BIT VARYING" || v === "CHARACTER" || v === "VARYING CHARACTER"){
-                                   
-                                        this.n = n_input;
-                                   
-                                    }
-                                    
-                                    else if (v === "DECIMAL") {
-                                        
-                                        this.i = i_input;
-                                        this.j = j_input;                                        
-                                        
-                                    }
-                                    
-                                    this.dataT = v; 
-                                    
-                                   
-                                    set_data = 0;   
-                                    n_input = 1;                                           
-                                    i_input, j_input = 0;
-                                    
-                                }                             
-                                
-                                
-                                else if(neg_primary_toggle === 1 && (this.type === "attribute" || this.type === "derived_attribute" || this.type === "multi_attribute")){                             
-                                    
-                                    this.primary = false;                        
-
-                                    neg_primary_toggle = 0;                               
-                                    
-                                }
-                                
-                                else if(unique_toggle === 1 && (this.type === "attribute" || this.type === "derived_attribute" || this.type === "multi_attribute")){                             
-                                    
-                                    this.unique = true;                        
-
-                                    unique_toggle = 0;                               
-                                    
-                                }
-                                
-                                else if(neg_unique_toggle === 1 && (this.type === "attribute" || this.type === "derived_attribute" || this.type === "multi_attribute")){                             
-                                    
-                                    this.unique = false;                        
-
-                                    neg_unique_toggle = 0;                               
-                                    
-                                }
-                                
-                                else if (not_null_toggle === 1 && (this.type === "attribute" || this.type === "derived_attribute" || this.type === "multi_attribute")){
-                                    
-                                    this.notNull = true;
-                                    
-                                    not_null_toggle = 0;
-                                    
-                                    
-                                }
-                                
-                                
-                                else if(rename_toggle === 1 && this.type !== "disjoint" && this.type !== "overlapping" && this.type !== "union"){
-                                    
-                                 var str = prompt("Please enter a name.", "Undefined"); 
-                                 
-                                 if (str == null) {
-                                     
-                                     str = "Undefined";
-                                        
-                                 }
-                                 
-                                  str = str.replace(/ /g,"_");
-                                 
-                                 
-                                 this.name = str ;                        
-                                 
-                                 rename_toggle = 0;                               
-                                    
-                                }
-                                
-                                 
-                                 
-                                 else if(remove_owner_toggle === 1){
-                                     
-                                     if(this.type === "attribute" || this.type === "derived_attribute" || this.type === "multi_attribute"){                                     
-                                                                     
-                                        if( this.owner !== 0){
-                                            
-                                            var indexE = this.owner.attributes.indexOf(this.ownerLine);  // find position of line within owner's attributes list
-                                            this.owner.attributes.splice(indexE);                         // remove element with that position from attributes list                                   
-                                            this.ownerLine.remove();
-                                            
-                                        } 
-                                        
-                                        this.owner = 0;
-                                        this.ownerLine.remove();                                         
-                                     
-                                    }
-                                    
-                                    remove_owner_toggle = 0;
-                                     
-                                     
-                                 }
-                                 
                                  // ENTITY SUPERCLASS-SUBCLASS  //
-                                 
-                                 else if(set_super === 1 && (this.type === "entity" || this.type === "weak_entity" || this.type === "disjoint" || this.type === "overlapping")){
-                                  
-                                    if( this.super !== 0){
-                                        
-                                        if(this.type === "entity" || this.type === "weak_entity" ){
-                                    
-                                            var indexE = this.super.subs.indexOf(this.superLine);  // remove old owner first
-                                            this.super.subs.splice(indexE);                                                   
-                                    
-                                        }
-                                  
-                                    else {                              
-
-                                            var indexE = this.super.specializations.indexOf(this.superLine);  // remove old owner first
-                                            this.super.specializations.splice(indexE);  
-                                            
-                                            if(this.superLine.companion !== 0){                                             
-                                              
-                                                this.superLine.companion.remove();                                             
-                                            }   
-                                      
-                                   }                                     
-                                            if(this.superLine.attribute !== 0){
-                                                
-                                                this.superLine.text.remove();
-                                                this.superLine.attribute = 0;
-                                                
-                                            }       
-                                            
-                                            this.superLine.remove();
-                                            this.super = 0;                                             
-                                            
-                                        }                                        
-                                 
-                                 // make this shape a start point                                   
-                                    L.start = this;                                    
-                                   // console.log("START " + L.start.cx + ", " + L.start.cy);
-                                    set_super = 2;                                       
-                                 }                         
+                                                         
                                 
                                 
-                                else if ((set_super === 2)  && (L.start !== this) && (this.type === "entity" || this.type === "weak_entity") && (L.start.super !== this) ){ // make this shape an end point
+                                if ((set_super === 2)  && (L.start !== this) && (this.type === "entity" || this.type === "weak_entity") && (L.start.super !== this) ){ // make this shape an end point
                                    
                                   L.end = this;
                                   // console.log("END " + L.end.cx + ", " + L.end.cy);
@@ -1474,7 +557,7 @@
                                     });    
                                     
                                      LLocal.companion = 0;
-                                     LLocal.attribute = 0;
+                                     LLocal.attribute = "";
                                       
                                   }
                                   
@@ -1512,7 +595,7 @@
                                       
                                       super_double = 0;
                                       
-                                      LLocal.attribute = 0;     // defining attribute
+                                      LLocal.attribute = "";     // defining attribute
                                       
                                       var t1 = lsvg.text(0, 0, LLocal.attribute);
                                       LLocal.text = t1;
@@ -1547,7 +630,13 @@
                                  startP = LLocal.start.getBBox();  
                                  endP = LLocal.end.getBBox();
                                  
-                                   if(LLocal.attribute !== 0){   
+                                 LLocal.text.attr({   
+                                     
+                                    text: LLocal.attribute                              
+                                                                
+                                  });  
+                                 
+                                   if(LLocal.attribute !== ""){   
                                      
                                      
                                     // start point is on the left side of end point 
@@ -1637,84 +726,12 @@
                                     
                                 }
                                 
-                                // REMOVE DEFINING ATTRIBUTE //
                                 
-                                else if (del_def_attribute ===1 && (this.type === "disjoint" || this.type === "overlapping")){
-                                    
-                                    if(this.superLine.attribute !== 0){
-                                                
-                                                this.superLine.text.remove();
-                                                this.superLine.attribute = 0;
-                                                
-                                            }
-                                            
-                                            del_def_attribute = 0;
-                                    
-                                    
-                                }
-                                
-                                // REMOVE SUPERCLASS //
-                                
-                                else if(remove_super_toggle === 1){
-                                     
-                                     if(this.type === "entity" || this.type === "weak_entity"){                                     
-                                                                     
-                                        if( this.super !== 0){
-                                            
-                                            var indexE = this.super.subs.indexOf(this.superLine);  // find position of line within owner's attributes list
-                                            this.super.subs.splice(indexE);                         // remove element with that position from attributes list                                   
-                                            this.superLine.remove();
-                                            
-                                        } 
-                                        
-                                        this.super = 0;
-                                        this.superLine.remove();                                         
-                                     
-                                    }  
-                                    
-                                    else if(this.type === "disjoint" || this.type === "overlapping"){                                     
-                                                                     
-                                        if( this.super !== 0){
-                                            
-                                            var indexE = this.super.specializations.indexOf(this.superLine);  // find position of line within owner's attributes list
-                                            this.super.specializations.splice(indexE);                         // remove element with that position from attributes list                                   
-                                            
-                                             if(this.superLine.companion !== 0){                                             
-                                              
-                                                this.superLine.companion.remove();                                             
-                                            }   
-                                         
-                                           if(this.superLine.attribute !== 0){
-                                                
-                                                this.superLine.text.remove();
-                                                this.superLine.attribute = 0;
-                                                
-                                            }
-                                         
-                                            this.superLine.remove();
-                                            
-                                        } 
-                                        
-                                        this.super = 0;
-                                        this.superLine.remove();                                         
-                                     
-                                    }          
-                                     
-                                 remove_super_toggle = 0;  
-                                 
-                                 }
+                               
                                  
                                  // UNION SUB //
                                  
-                                    else if(set_union === 1 && (this.type === "entity" || this.type === "weak_entity")){                  
-                                 
-                                                                   
-                                    L.start = this;                                    
-                                   
-                                    set_union = 2;                                       
-                                 }                         
-                                
-                                
+                               
                                 else if ((set_union === 2) && (this.type === "union") ){ // make this shape an end point
                                    
                                   L.end = this;
@@ -1856,19 +873,7 @@
                                 }
                                 
                                 // REMOVE UNION SUB //
-                                
-                                 else if(remove_union === 1 && (this.type === "entity" || this.type === "weak_entity")){
-                                  
-                                                           
-                                 
-                                                                    
-                                    L.start = this;                                    
-                                   
-                                    remove_union = 2;     
-                                    
-                                    
-                                 }                         
-                                
+                             
                                 
                                 else if ((remove_union === 2) && (this.type === "union") ){ 
                                    
@@ -1916,17 +921,7 @@
                                 
                              }
                              
-                             // UNION SUPER //
-                             
-                                 else if(union_super === 1 && (this.type === "union")){
-                                  
-                                                           
-                                 
-                                 // make this shape a start point                                   
-                                    L.start = this;                                    
-                                   // console.log("START " + L.start.cx + ", " + L.start.cy);
-                                    union_super = 2;                                       
-                                 }                         
+                             // UNION SUPER //                             
                                 
                                 
                                 else if ((union_super === 2) && (this.type === "entity" || this.type === "weak_entity") ){ // make this shape an end point
@@ -2002,16 +997,6 @@
                                 
                                 // REMOVE UNION SUPER //
                                 
-                                 else if(del_union_super === 1 && (this.type === "union")){                                               
-                                 
-                                                                    
-                                    L.start = this;                                    
-                                   
-                                    del_union_super  = 2;     
-                                    
-                                    
-                                 }                         
-                                
                                 
                                 else if ((del_union_super  === 2) && (this.type === "entity" || this.type === "weak_entity") ){ // make this shape an end point
                                    
@@ -2054,53 +1039,11 @@
                                 
                              }                                
                                  
-                                 // DEFINING ATTRIBUTE //
                                  
-                                 else if(def_attribute === 1 && (this.type === "disjoint" || this.type === "overlapping")){
-                                     
-                                     var attr_list = [];
-                                     var temp = " ";
-                                     
-                                     if(this.super !== 0){
-                                         
-                                         attr_list = this.super.attributes;
-                                         
-                                         for(i=0; i<this.super.attributes.length; i++){    // get each one of the attributes
-                                            alert(this.super.attributes[i].start.name); 
-                                            temp = temp + "  " + '"' + this.super.attributes[i].start.name + '"'; 
-                                             
-                                             
-                                         }
-                                         
-                                         var string = prompt("Please enter one of the following attributes:" + temp, "Undefined");  // ask for name
-                                         string = string.replace(/ /g,"_");
-                                         
-                                            if(string !== null){
-
-                                                this.superLine.attribute = string;
-
-                                            }
-                                         
-                                     }
-                                     
-                                     
-                                     
-                                     def_attribute = 0;
-                                 }
                                  
                                  // SPECIALIZATION  //
                                  
-                                 else if(set_spec === 1 && (this.type === "entity" || this.type === "weak_entity")){
-                                  
-                                                           
-                                 
-                                 // make this shape a start point                                   
-                                    L.start = this;                                    
-                                   // console.log("START " + L.start.cx + ", " + L.start.cy);
-                                    set_spec = 2;                                       
-                                 }                         
-                                
-                                
+                               
                                 else if ((set_spec === 2) && (this.type === "disjoint" || this.type === "overlapping") ){ // make this shape an end point
                                    
                                   L.end = this;
@@ -2139,7 +1082,7 @@
                                       LLocal.start = L.start;
                                       LLocal.end = L.end; 
                                       
-                                      LLocal.criteria = 0;
+                                      LLocal.criteria = "";
                                       var t1 = lsvg.text(0, 0, LLocal.criteria);
                                       LLocal.text = t1;
 
@@ -2156,7 +1099,13 @@
                                      startP = LLocal.start.getBBox();  
                                      endP = LLocal.end.getBBox();                                 
                                      
-                                     if(LLocal.criteria != 0){
+                                      LLocal.text.attr({    
+                                          
+                                        text: LLocal.criteria                            
+
+                                      });  
+                                     
+                                     if(LLocal.criteria !== ""){
                                          
                                           
                                     // start point is on the left side of end point 
@@ -2223,19 +1172,7 @@
                                 }
                                 
                                 // REMOVE SPECIALIZATION //
-                                
-                                else if(remove_spec === 1 && (this.type === "entity" || this.type === "weak_entity")){
-                                  
-                                                           
-                                 
-                                                                    
-                                    L.start = this;                                    
-                                   
-                                    remove_spec = 2;     
-                                    
-                                    
-                                 }                         
-                                
+                               
                                 
                                 else if ((remove_spec === 2) && (this.type === "disjoint" || this.type === "overlapping") ){ // make this shape an end point
                                    
@@ -2272,10 +1209,10 @@
                                             indexE = L.end.subs.indexOf(temp_line);  // remove line from specialization's list
                                             L.end.subs.splice(indexE);
                                             
-                                            if(temp_line.criteria !== 0){
+                                            if(temp_line.criteria !== ""){
                                                 
                                                    
-                                                temp_line.criteria = 0; 
+                                                temp_line.criteria = ""; 
                                                 temp_line.text.remove();
                                                 
                                             }
@@ -2289,19 +1226,7 @@
                              
                              
                                 // SET CRITERIA //
-                                
-                                else if(set_criteria === 1 && (this.type === "entity" || this.type === "weak_entity")){
-                                  
-                                                           
-                                 
-                                                                    
-                                    L.start = this;                                    
-                                   
-                                    set_criteria = 2;     
-                                    
-                                    
-                                 }                         
-                                
+                              
                                 
                                 else if ((set_criteria === 2) && (this.type === "disjoint" || this.type === "overlapping") ){ // make this shape an end point
                                    
@@ -2309,7 +1234,6 @@
                                   set_criteria = 0; 
                                   
                                   var flag = 0; // check if this line already exists
-                                  
                                   
                                   
                                   
@@ -2331,11 +1255,11 @@
                                  
                                   if(flag === 1){  // if a line between them exists, set criteria 
                                       
-                                      var string = prompt("Please enter an attribute value.", "Undefined");  // ask for name
+                                      var string = prompt("Please enter an attribute value.", "");  // ask for name
                             
                                         if (string == null) {
 
-                                                 string = "Undefined";
+                                                 string = "";
 
                                              }
 
@@ -2351,20 +1275,7 @@
                                 
                                 
                                 // REMOVE CRITERIA //
-                                
-                                else if(del_criteria === 1 && (this.type === "entity" || this.type === "weak_entity")){
-                                  
-                                                           
-                                 
-                                                                    
-                                    L.start = this;                                    
-                                   
-                                    del_criteria = 2;     
-                                    
-                                    
-                                 }                         
-                                
-                                
+                             
                                 else if ((del_criteria === 2) && (this.type === "disjoint" || this.type === "overlapping") ){ // make this shape an end point
                                    
                                   L.end = this;                                 
@@ -2372,8 +1283,6 @@
                                   
                                   var flag = 0; // check if this line already exists
                                  
-                                  
-                                  
                                   
                                   for(i=0; i<L.start.super_specializations.length; i++){
                                       
@@ -2384,45 +1293,24 @@
                                           break;
                                           
                                       }   
-                                      
-                                     
+                            
                                       
                                   }
                                   
                                    
                                  
-                                  if(flag === 1){  // if a line between them exists, set criteria 
+                                  if(flag === 1){  // if a line between them exists, remove criteria 
                                       
                                         
-                                      L.start.super_specializations[i].criteria = 0; 
-                                      L.start.super_specializations[i].text.remove();
-                                            
+                                      L.start.super_specializations[i].criteria = ""; 
+                                          
                                     
                                 }
                                 
                              }
                                     
                                  
-                                 // ATTRIBUTE LINES //
-                           
-                                
-                                else if ((line_cr === 1) && (this.type === "attribute" || this.type === "derived_attribute" || this.type === "multi_attribute")){
-                                    
-                                     if( this.owner !== 0){
-                                            
-                                            var indexE = this.owner.attributes.indexOf(this.ownerLine);  // remove old owner first
-                                            this.owner.attributes.splice(indexE);                                                           
-                                            this.ownerLine.remove();
-                                            this.owner = 0;
-                                             
-                                            
-                                        }                                        
-                                 
-                                 // make this shape a start point                                   
-                                    L.start = this;                                    
-                                   // console.log("START " + L.start.cx + ", " + L.start.cy);
-                                    line_cr = 2;                                       
-                                 }                         
+                                 // ATTRIBUTE LINES //                                   
                                 
                                 
                                 else if ((line_cr === 2)  && (L.start !== this)){ // make this shape an end point
@@ -2479,99 +1367,7 @@
                                 }    
                                 
                                  // PARTIAL RELATIONSHIP LINES //
-                                 
-                                 else if ((sConnect === 1) && (this.type === "relationship" || this.type === "identifying_rel")){
-                                    
-                                    
-                                    
-                                    switch (edge){
-                                     case 1:
-                                         
-                                        if( this.topLine !== 0){
-                                            
-                                            var indexE = this.topEntity.relationships.indexOf(this.topLine);  // remove old connection first
-                                            this.topEntity.attributes.splice(indexE);  
-                                            
-                                            if(this.topLine.companion !== 0){                                             
-                                              
-                                                this.topLine.companion.remove();                                             
-                                            }   
-                                            
-                                            this.topLine.text.remove();
-                                            this.topLine.remove();
-                                            this.topEntity = 0;                                            
-                                            
-                                        }
-                                    break; 
-                                
-                                    case 2:
-                                         
-                                        if( this.botLine !== 0){
-                                            
-                                            var indexE = this.botEntity.relationships.indexOf(this.botLine);  // remove old connection first
-                                            this.botEntity.attributes.splice(indexE); 
-                                            
-                                            if(this.botLine.companion !== 0){                                             
-                                              
-                                                this.botLine.companion.remove();   
-                                                
-                                            }   
-                                            
-                                            this.botLine.text.remove();
-                                            this.botLine.remove();
-                                            this.botEntity = 0;                                            
-                                            
-                                        }
-                                    break;                              
-                                     
-                                     case 3:
-                                         
-                                         if( this.leftLine !== 0){
-                                            
-                                            var indexE = this.leftEntity.relationships.indexOf(this.leftLine);  // remove old connection first
-                                            this.leftEntity.attributes.splice(indexE);    
-                                            
-                                            if(this.leftLine.companion !== 0){                                             
-                                              
-                                                this.leftLine.companion.remove();                                             
-                                            }   
-                                            
-                                            this.leftLine.text.remove();
-                                            this.leftLine.remove();
-                                            this.leftEntity = 0;                                            
-                                            
-                                        }
-                                    break; 
-                                
-                                    case 4:
-                                         
-                                        if( this.rightLine !== 0){
-                                            
-                                            var indexE = this.rightEntity.relationships.indexOf(this.rightLine);  // remove old connection first
-                                            this.rightEntity.attributes.splice(indexE);  
-                                            
-                                            if(this.rightLine.companion !== 0){                                             
-                                              
-                                                this.rightLine.companion.remove();    
-                                                
-                                            }   
-                                            
-                                            this.rightLine.text.remove();
-                                            this.rightLine.remove();
-                                            this.rightEntity = 0;                                            
-                                            
-                                        }
-                                        
-                                    break;                                        
-                                        
-                                    }                                    
-                                                                     
-                                 
-                                 // make this shape a start point                                   
-                                    L.start = this;                                    
-                                   // console.log("START " + L.start.cx + ", " + L.start.cy);
-                                    sConnect = 2;                                       
-                                 }                         
+                                                          
                                 
                                 
                                 else if ((sConnect === 2 )  && (L.start !== this) && (this.type === "entity" || this.type === "weak_entity" )){ // make this shape an end point
@@ -2742,98 +1538,6 @@
                                 
                                 // TOTAL RELATIONSHIP LINES //
                                  
-                                 else if ((dConnect === 1) && (this.type === "relationship" || this.type === "identifying_rel")){                                    
-                                    
-                                    
-                                    switch (edge){
-                                     case 1:
-                                         
-                                        if( this.topLine !== 0){
-                                            
-                                            var indexE = this.topEntity.relationships.indexOf(this.topLine);  // remove old connection first
-                                            this.topEntity.attributes.splice(indexE);  
-                                            
-                                            if(this.topLine.companion !== 0){                                             
-                                              
-                                                this.topLine.companion.remove();   
-                                                
-                                            }   
-                                            
-                                            this.topLine.text.remove();
-                                            this.topLine.remove();
-                                            this.topEntity = 0;                                            
-                                            
-                                        }
-                                    break; 
-                                
-                                    case 2:
-                                         
-                                        if( this.botLine !== 0){
-                                            
-                                            var indexE = this.botEntity.relationships.indexOf(this.botLine);  // remove old connection first
-                                            this.botEntity.attributes.splice(indexE);   
-                                            
-                                            if(this.botLine.companion !== 0){                                             
-                                              
-                                                this.botLine.companion.remove();                                             
-                                            }   
-                                            
-                                            this.botLine.text.remove();
-                                            this.botLine.remove();
-                                            this.botEntity = 0;                                            
-                                            
-                                        }
-                                    break;                              
-                                     
-                                     case 3:
-                                         
-                                         if( this.leftLine !== 0){
-                                            
-                                            var indexE = this.leftEntity.relationships.indexOf(this.leftLine);  // remove old connection first
-                                            this.leftEntity.attributes.splice(indexE);   
-                                            
-                                            if(this.leftLine.companion !== 0){                                             
-                                              
-                                                this.leftLine.companion.remove();                                             
-                                            }   
-                                            
-                                            this.leftLine.text.remove();
-                                            this.leftLine.remove();
-                                            this.leftEntity = 0;                                            
-                                            
-                                        }
-                                    break; 
-                                
-                                    case 4:
-                                         
-                                        if( this.rightLine !== 0){
-                                            
-                                            var indexE = this.rightEntity.relationships.indexOf(this.rightLine);  // remove old connection first
-                                            this.rightEntity.attributes.splice(indexE);   
-                                            
-                                            if(this.rightLine.companion !== 0){                                             
-                                              
-                                                this.rightLine.companion.remove();                                             
-                                            }   
-                                            
-                                            this.rightLine.text.remove();
-                                            this.rightLine.remove();
-                                            this.rightEntity = 0;                                            
-                                            
-                                        }
-                                    break;
-                                        
-                                        
-                                    }
-                                    
-                                                                     
-                                 
-                                 // make this shape a start point                                   
-                                    L.start = this;                                    
-                                   // console.log("START " + L.start.cx + ", " + L.start.cy);
-                                    dConnect = 2;                                       
-                                 }                         
-                                
                                 
                                 else if ((dConnect === 2 )  && (L.start !== this) && (this.type === "entity" || this.type === "weak_entity" )){ // make this shape an end point
                                   
@@ -3009,11 +1713,1617 @@
                                 
                                     
                                 }    
+                             
+                            
+                            };     
+                            
+                            // ENTITIES //
+                            
+                            $.contextMenu({
+                                selector: '#entity',
+                                items: {
+                                    
+                                  "superclass": {
+                                        "name": "Superclass", 
+                                        "items": {
+                                            "superclass-key1": {"name": "Set",
+                                         callback: function(key, opt) {
+                                             
+                                              if( Snap(this[0]).super !== 0){
+                                                        
+                                                  var indexE = Snap(this[0]).super.subs.indexOf(Snap(this[0]).superLine);  // remove old owner first
+                                                  Snap(this[0]).super.subs.splice(indexE);                                                   
+
+                                                  if(Snap(this[0]).superLine.attribute !== ""){
+
+                                                      Snap(this[0]).superLine.text.remove();
+                                                      Snap(this[0]).superLine.attribute = "";
+
+                                                  }       
+
+                                                  Snap(this[0]).superLine.remove();
+                                                  Snap(this[0]).super = 0;                                             
+
+                                              }                                        
+
+                                         // make this shape a start point                                   
+                                          L.start = Snap(this[0]);                                    
+                                         // console.log("START " + L.start.cx + ", " + L.start.cy);
+                                          set_super = 2;                                            
+                                         
+                                         }},
+                                            "superclass-key2": {"name": "Remove",
+                                         callback: function(key, opt) {
+                                                                      
+                                            if( Snap(this[0]).super !== 0){
+                                            
+                                                var indexE = Snap(this[0]).super.subs.indexOf(Snap(this[0]).superLine);  // find position of line within owner's attributes list
+                                                Snap(this[0]).super.subs.splice(indexE);                         // remove element with that position from attributes list                                   
+                                                Snap(this[0]).superLine.remove();
+                                            
+                                            } 
+
+                                            Snap(this[0]).super = 0;
+                                            Snap(this[0]).superLine.remove();          
+                                        
+                                         }                                      
+                                         
+                                         }
+                                            
+                                    }
+                                },                                     
                                 
+                                 "specialization": {
+                                        "name": "Specialization", 
+                                        "items": {
+                                            "spec-key1": {"name": "Set",
+                                         callback: function(key, opt) {
+
+                                            // make this shape a start point                                   
+                                               L.start =  Snap(this[0]);                                    
+                                              // console.log("START " + L.start.cx + ", " + L.start.cy);
+                                               set_spec = 2;                                                  
+                                         
+                                         }},
+                                            "spec-key2": {"name": "Remove",
+                                         callback: function(key, opt) {
+
+                                            L.start =  Snap(this[0]);                                    
+
+                                            remove_spec = 2;    
+                                        
+                                         }                                      
+                                         
+                                         }
+                                            
+                                    }
+                                },
+                                
+                                 "defining_criteria": {
+                                        "name": "Defining Criteria", 
+                                        "items": {
+                                            "crit-key1": {"name": "Set",
+                                         callback: function(key, opt) {
+
+
+                                            L.start = Snap(this[0]);                                    
+
+                                            set_criteria = 2;                           
+                                         
+                                         }},
+                                            "crit-key2": {"name": "Remove",
+                                         callback: function(key, opt) {
+                                                                    
+                                            L.start = Snap(this[0]);                                    
+
+                                            del_criteria = 2; 
+                                            
+                                           
+                                         }                                      
+                                         
+                                         }
+                                            
+                                    }
+                                },
+                                
+                                "union": {
+                                        "name": "Union", 
+                                        "items": {
+                                            "union-key1": {"name": "Set (Partial)",
+                                         callback: function(key, opt) {
+                                        
+                                            L.start = Snap(this[0]);                                    
+
+                                            set_union = 2;      
+                                            
+                                            union_double = 0;
+                                         
+                                         }},                                     
+                                            "union-key2": {"name": "Set (Total) ",
+                                         callback: function(key, opt) {
+                                             
+                                            L.start = Snap(this[0]);                                    
+
+                                            set_union = 2;      
+                                            
+                                            union_double = 1;
+                       
+                                         
+                                         }},
+                                            "union-key3": {"name": "Remove",
+                                         callback: function(key, opt) {
+                                    
+
+                                            L.start = Snap(this[0]);                                    
+
+                                            remove_union = 2;     
+                                    
+                                           
+                                         }                                      
+                                         
+                                         }
+                                            
+                                    }
+                                },
+                                    
+                                  rename: {
+                                    name: "Rename",
+                                    callback: function(key, opt) {
+                                        
+                                    var str = prompt("Please enter a name.", "Name");                                 
+                                        
+
+                                         str = str.replace(/ /g,"_");
+                                         
+                                         if (str !== null) {
+
+                                            Snap(this[0]).name = str;  
+
+                                        }                                                         
+                                      
+                                    }
+                                  },
+                                  delete: {
+                                    name: "Delete",
+                                    callback: function(key, opt) {
+                                        
+                                      for(i=0; i<Snap(this[0]).attributes.length; i++){        // set "owner" of all attributes = 0
+                                            
+                                                Snap(this[0]).attributes[i].start.owner = 0;  
+                                                Snap(this[0]).attributes[i].start.ownerLine = 0; 
+                                                Snap(this[0]).attributes[i].remove();                                                                             
+
+                                        }
+                                        
+                                         for(i=0; i<Snap(this[0]).unions.length; i++){        // set "sub" of all unions = 0
+                                            
+                                                Snap(this[0]).unions[i].end.sub = 0;  
+                                                Snap(this[0]).unions[i].end.unionLine = 0;
+                                                  
+                                                
+                                                 if(Snap(this[0]).unions[i].companion !== 0){    // remove double line, if total particilation                                            
+                                              
+                                                     Snap(this[0]).unions[i].companion.remove(); 
+                                                     
+                                                }   
+                                                
+                                                 Snap(this[0]).unions[i].remove(); 
+
+                                        }
+                                        
+                                         for(i=0; i<Snap(this[0]).subs.length; i++){        // set "super" of all entities = 0
+                                            
+                                             
+                                                Snap(this[0]).subs[i].start.super = 0;
+                                                Snap(this[0]).subs[i].start.superLine = 0;  
+                                                Snap(this[0]).subs[i].remove();    
+                                                
+                                                
+
+                                        }
+                                        
+                                        
+                                         for(i=0; i<Snap(this[0]).specializations.length; i++){        // set "super" of all specializations = 0
+                                            
+                                               
+                                                    if(Snap(this[0]).specializations[i].start.superLine.attribute !== ""){
+
+                                                     Snap(this[0]).specializations[i].start.superLine.text.remove();
+                                                     Snap(this[0]).specializations[i].start.superLine.attribute = "";
+
+                                                 }
+                                                 
+                                                 if(Snap(this[0]).specializations[i].start.superLine.companion !== 0){
+
+                                                     Snap(this[0]).specializations[i].start.superLine.companion.remove();
+                                                     Snap(this[0]).specializations[i].start.superLine.companion = 0;
+
+                                                 }
+                                               
+                                                Snap(this[0]).specializations[i].start.super = 0; 
+                                                Snap(this[0]).specializations[i].start.superLine = 0;
+                                                Snap(this[0]).specializations[i].remove();    
+                                                
+                                                
+
+                                        }
+                                        
+                                        for(i=0; i<Snap(this[0]).super_specializations.length; i++){ 
+                                            
+                                            
+                                                   var indexE = Snap(this[0]).super_specializations[i].end.subs.indexOf(Snap(this[0]).super_specializations[i]);  // find position of line within super's subclasses list
+                                                   Snap(this[0]).super_specializations[i].end.subs.splice(indexE); 
+                                                   // remove element with that position from subclasses list    
+                                                   if(Snap(this[0]).super_specializations[i].criteria !== ""){
+                                                
+
+                                                        Snap(this[0]).super_specializations[i].criteria = ""; 
+                                                        Snap(this[0]).super_specializations[i].text.remove();
+
+                                                    }
+                                                   
+                                                   Snap(this[0]).super_specializations[i].remove();                                                         
+                                                   
+                                                   
+
+                                        }
+                                        
+                                        for(i=0; i<Snap(this[0]).union_subs.length; i++){        
+                                            
+                                                   var indexE = Snap(this[0]).union_subs[i].start.supers.indexOf(Snap(this[0]).union_subs[i]);  // find position of line within super's subclasses list
+                                                   Snap(this[0]).union_subs[i].start.supers.splice(indexE);                                    // remove element with that position from subclasses list                                   
+                                                   Snap(this[0]).union_subs[i].remove();                                                         
+
+                                        }
+                                        
+                                        if( Snap(this[0]).super !== 0){
+                                            
+                                            var indexE = Snap(this[0]).super.subs.indexOf(Snap(this[0]).superLine);  // find position of line within super's subclasses list
+                                            Snap(this[0]).super.subs.splice(indexE);                                 // remove element with that position from subclasses list                                   
+                                            Snap(this[0]).superLine.remove();
+                                            
+                                        }   
+                                        
+                                        for(i=0; i<Snap(this[0]).relationships.length; i++){ 
+                                            
+                                                if(Snap(this[0]).relationships[i].start.topEntity === Snap(this[0])){
+
+                                                        Snap(this[0]).relationships[i].start.topLine = 0;         
+                                                        Snap(this[0]).relationships[i].start.topEntity = 0; 
+
+
+                                                    }
+                                                    
+                                                   if(Snap(this[0]).relationships[i].start.botEntity === Snap(this[0])){
+                                                    
+                                                    Snap(this[0]).relationships[i].start.botLine = 0;         
+                                                   Snap(this[0]).relationships[i].start.botEntity = 0; 
+                                                                                     
+                                                    
+                                                }
+                                            
+                                            
+                                                if(Snap(this[0]).relationships[i].start.leftEntity === Snap(this[0])){
+                                                    
+                                                    Snap(this[0]).relationships[i].start.leftLine = 0;         
+                                                    Snap(this[0]).relationships[i].start.leftEntity = 0; 
+                                                                                     
+                                                    
+                                                }
+                                                
+                                                if(Snap(this[0]).relationships[i].start.rightEntity === Snap(this[0])){
+                                                    
+                                                    Snap(this[0]).relationships[i].start.rightLine = 0;        
+                                                    Snap(this[0]).relationships[i].start.rightEntity = 0; 
+                                                                                     
+                                                    
+                                                }
+                                                
+                                                if(Snap(this[0]).relationships[i].companion !== 0){    // remove double line, if total particilation                                            
+                                              
+                                                     Snap(this[0]).relationships[i].companion.remove(); 
+                                                     
+                                                }    
+                                                
+                                                Snap(this[0]).relationships[i].text.remove();
+                                                Snap(this[0]).relationships[i].remove();                                                           
+
+                                        } 
+                                        
+                                        Snap(this[0]).text.remove();                             // remove name
+                                        Snap(this[0]).remove();                                // remove target  
+                                      
+                                    }
+                                  }
+                                }                 
+                                
+                              });
+                              
+                              // RELATIONSHIPS //                             
+                            
+                              
+                              $.contextMenu({
+                                selector: '#relationship',
+                                items: {
+                                    
+                                  "top": {
+                                        "name": "Top", 
+                                        "items": {
+                                            "top-key1": {"name": "Set (Partial)",
+                                         callback: function(key, opt) {
+                                             
+                                              if( Snap(this[0]).topLine !== 0){
+                                            
+                                            var indexE = Snap(this[0]).topEntity.relationships.indexOf(Snap(this[0]).topLine);  // remove old connection first
+                                            Snap(this[0]).topEntity.attributes.splice(indexE);  
+                                            
+                                            if(Snap(this[0]).topLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).topLine.companion.remove();                                             
+                                            }   
+                                            
+                                            Snap(this[0]).topLine.text.remove();
+                                            Snap(this[0]).topLine.remove();
+                                            Snap(this[0]).topEntity = 0;                                            
+                                            
+                                        }
+                                        
+                                                                           
+                                 
+                                              // make this shape a start point                                   
+                                               L.start = Snap(this[0]);                                    
+                                              // console.log("START " + L.start.cx + ", " + L.start.cy);
+                                               sConnect = 2;      
+                                               edge = 1;
+                                                                 
+                                         
+                                         }},
+                                            "top-key2": {"name": "Set (Total)",
+                                         callback: function(key, opt) {
+                                             
+                                               
+                                              if( Snap(this[0]).topLine !== 0){
+                                            
+                                            var indexE = Snap(this[0]).topEntity.relationships.indexOf(Snap(this[0]).topLine);  // remove old connection first
+                                            Snap(this[0]).topEntity.attributes.splice(indexE);  
+                                            
+                                            if(Snap(this[0]).topLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).topLine.companion.remove();                                             
+                                            }   
+                                            
+                                            Snap(this[0]).topLine.text.remove();
+                                            Snap(this[0]).topLine.remove();
+                                            Snap(this[0]).topEntity = 0;                                            
+                                            
+                                        }
+                                        
+                                                                           
+                                 
+                                              // make this shape a start point                                   
+                                               L.start = Snap(this[0]);                                    
+                                              // console.log("START " + L.start.cx + ", " + L.start.cy);
+                                               dConnect = 2;      
+                                               edge = 1;
+                                                                 
+                                           
+                                    
+                                            
+                                         }                                      
+                                         
+                                         },
+                                         
+                                         "top-key3": {"name": "Remove",
+                                         callback: function(key, opt) {
+                                             
+                                            var indexE = Snap(this[0]).topEntity.relationships.indexOf(Snap(this[0]).topLine);  // remove old connection first
+                                            Snap(this[0]).topEntity.attributes.splice(indexE);  
+                                            
+                                            if(Snap(this[0]).topLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).topLine.companion.remove();                                             
+                                            }   
+                                            
+                                            Snap(this[0]).topLine.text.remove();
+                                            Snap(this[0]).topLine.remove();
+                                            Snap(this[0]).topLine = 0;
+                                            Snap(this[0]).topEntity = 0;                                            
+                                    
+                                            
+                                         }                                      
+                                         
+                                         },
+                                         
+                                         "top-key4": {"name": "Ratio: 1",
+                                         callback: function(key, opt) {
+                                             
+                                            if( Snap(this[0]).topLine !== 0){
+
+                                               Snap(this[0]).topLine.ratio = "1";                                                                               
+
+                                           }                  
+                                    
+                                            
+                                         }                                      
+                                         
+                                         },
+                                         
+                                         "top-key5": {"name": "Ratio: N",
+                                         callback: function(key, opt) {
+                                             
+                                             if( Snap(this[0]).topLine !== 0){
+
+                                               Snap(this[0]).topLine.ratio = "N";                                                                               
+
+                                           }                                                                      
+                                    
+                                            
+                                         }                                      
+                                         
+                                         },
+                                            
+                                    }
+                                },    
+                                
+                                "bottom": {
+                                        "name": "Bottom", 
+                                        "items": {
+                                            "bot-key1": {"name": "Set (Partial)",
+                                         callback: function(key, opt) {
+                                             
+                                              if( Snap(this[0]).botLine !== 0){
+                                            
+                                            var indexE = Snap(this[0]).botEntity.relationships.indexOf(Snap(this[0]).botLine);  // remove old connection first
+                                            Snap(this[0]).botEntity.attributes.splice(indexE);  
+                                            
+                                            if(Snap(this[0]).botLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).botLine.companion.remove();                                             
+                                            }   
+                                            
+                                            Snap(this[0]).botLine.text.remove();
+                                            Snap(this[0]).botLine.remove();
+                                            Snap(this[0]).botLine = 0;
+                                            Snap(this[0]).botEntity = 0;                                            
+                                            
+                                        }                           
+                                 
+                                              // make this shape a start point                                   
+                                               L.start = Snap(this[0]);                                    
+                                              // console.log("START " + L.start.cx + ", " + L.start.cy);
+                                               sConnect = 2;      
+                                               edge = 2;
+                                                                 
+                                         
+                                         }},
+                                            "bot-key2": {"name": "Set (Total)",
+                                         callback: function(key, opt) {
+                                             
+                                               
+                                              if( Snap(this[0]).botLine !== 0){
+                                            
+                                            var indexE = Snap(this[0]).botEntity.relationships.indexOf(Snap(this[0]).botLine);  // remove old connection first
+                                            Snap(this[0]).botEntity.attributes.splice(indexE);  
+                                            
+                                            if(Snap(this[0]).botLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).botLine.companion.remove();                                             
+                                            }   
+                                            
+                                            Snap(this[0]).botLine.text.remove();
+                                            Snap(this[0]).botLine.remove();
+                                            Snap(this[0]).botLine = 0;
+                                            Snap(this[0]).botEntity = 0;                                            
+                                            
+                                        }
+                                        
+                                                                           
+                                 
+                                              // make this shape a start point                                   
+                                               L.start = Snap(this[0]);                                    
+                                              // console.log("START " + L.start.cx + ", " + L.start.cy);
+                                               dConnect = 2;      
+                                               edge = 2;
+                                           
+                                         }                                      
+                                         
+                                         },
+                                         
+                                         "bot-key3": {"name": "Remove",
+                                         callback: function(key, opt) {
+                                             
+                                            var indexE = Snap(this[0]).botEntity.relationships.indexOf(Snap(this[0]).botLine);  // remove old connection first
+                                            Snap(this[0]).botEntity.attributes.splice(indexE);  
+                                            
+                                            if(Snap(this[0]).botLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).botLine.companion.remove();                                             
+                                            }   
+                                            
+                                            Snap(this[0]).botLine.text.remove();
+                                            Snap(this[0]).botLine.remove();
+                                            Snap(this[0]).botLine = 0;
+                                            Snap(this[0]).botEntity = 0;                                            
+                                    
+                                            
+                                         }                                      
+                                         
+                                         },
+                                         
+                                         "bot-key4": {"name": "Ratio: 1",
+                                         callback: function(key, opt) {
+                                             
+                                            if( Snap(this[0]).botLine !== 0){
+
+                                               Snap(this[0]).botLine.ratio = "1";                                                                               
+
+                                           }                  
+                                    
+                                            
+                                         }                                      
+                                         
+                                         },
+                                         
+                                         "bot-key5": {"name": "Ratio: N",
+                                         callback: function(key, opt) {
+                                             
+                                             if( Snap(this[0]).botLine !== 0){
+
+                                               Snap(this[0]).botLine.ratio = "N";                                                                               
+
+                                           }                                                                      
+                                    
+                                            
+                                         }                                      
+                                         
+                                         },
+                                            
+                                    }
+                                },
+                                
+                                "left": {
+                                        "name": "Left", 
+                                        "items": {
+                                            "left-key1": {"name": "Set (Partial)",
+                                         callback: function(key, opt) {
+                                             
+                                              if( Snap(this[0]).leftLine !== 0){
+                                            
+                                            var indexE = Snap(this[0]).leftEntity.relationships.indexOf(Snap(this[0]).leftLine);  // remove old connection first
+                                            Snap(this[0]).leftEntity.attributes.splice(indexE);  
+                                            
+                                            if(Snap(this[0]).leftLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).leftLine.companion.remove();                                             
+                                            }   
+                                            
+                                            Snap(this[0]).leftLine.text.remove();
+                                            Snap(this[0]).leftLine.remove();
+                                            Snap(this[0]).leftLine = 0;
+                                            Snap(this[0]).leftEntity = 0;                                            
+                                            
+                                        }                           
+                                 
+                                              // make this shape a start point                                   
+                                               L.start = Snap(this[0]);                                    
+                                              // console.log("START " + L.start.cx + ", " + L.start.cy);
+                                               sConnect = 2;      
+                                               edge = 3;
+                                                                 
+                                         
+                                         }},
+                                            "left-key2": {"name": "Set (Total)",
+                                         callback: function(key, opt) {
+                                             
+                                               
+                                              if( Snap(this[0]).leftLine !== 0){
+                                            
+                                            var indexE = Snap(this[0]).leftEntity.relationships.indexOf(Snap(this[0]).leftLine);  // remove old connection first
+                                            Snap(this[0]).leftEntity.attributes.splice(indexE);  
+                                            
+                                            if(Snap(this[0]).leftLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).leftLine.companion.remove();                                             
+                                            }   
+                                            
+                                            Snap(this[0]).leftLine.text.remove();
+                                            Snap(this[0]).leftLine.remove();
+                                            Snap(this[0]).leftLine = 0;
+                                            Snap(this[0]).leftEntity = 0;                                            
+                                            
+                                        }
+                                        
+                                                                           
+                                 
+                                              // make this shape a start point                                   
+                                               L.start = Snap(this[0]);                                    
+                                              // console.log("START " + L.start.cx + ", " + L.start.cy);
+                                               dConnect = 2;      
+                                               edge = 3;
+                                           
+                                         }                                      
+                                         
+                                         },
+                                         
+                                         "left-key3": {"name": "Remove",
+                                         callback: function(key, opt) {
+                                             
+                                            var indexE = Snap(this[0]).leftEntity.relationships.indexOf(Snap(this[0]).leftLine);  // remove old connection first
+                                            Snap(this[0]).leftEntity.attributes.splice(indexE);  
+                                            
+                                            if(Snap(this[0]).leftLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).leftLine.companion.remove();                                             
+                                            }   
+                                            
+                                            Snap(this[0]).leftLine.text.remove();
+                                            Snap(this[0]).leftLine.remove();
+                                            Snap(this[0]).leftLine = 0;
+                                            Snap(this[0]).leftEntity = 0;                                            
+                                    
+                                            
+                                         }                                      
+                                         
+                                         },
+                                         
+                                         "left-key4": {"name": "Ratio: 1",
+                                         callback: function(key, opt) {
+                                             
+                                            if( Snap(this[0]).leftLine !== 0){
+
+                                               Snap(this[0]).leftLine.ratio = "1";                                                                               
+
+                                           }                  
+                                    
+                                            
+                                         }                                      
+                                         
+                                         },
+                                         
+                                         "left-key5": {"name": "Ratio: N",
+                                         callback: function(key, opt) {
+                                             
+                                             if( Snap(this[0]).leftLine !== 0){
+
+                                               Snap(this[0]).leftLine.ratio = "N";                                                                               
+
+                                           }                                                                      
+                                    
+                                            
+                                         }                                      
+                                         
+                                         },
+                                            
+                                    }
+                                },
+                                
+                                 "right": {
+                                        "name": "Right", 
+                                        "items": {
+                                            "right-key1": {"name": "Set (Partial)",
+                                         callback: function(key, opt) {
+                                             
+                                              if( Snap(this[0]).rightLine !== 0){
+                                            
+                                            var indexE = Snap(this[0]).rightEntity.relationships.indexOf(Snap(this[0]).rightLine);  // remove old connection first
+                                            Snap(this[0]).rightEntity.attributes.splice(indexE);  
+                                            
+                                            if(Snap(this[0]).rightLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).rightLine.companion.remove();                                             
+                                            }   
+                                            
+                                            Snap(this[0]).rightLine.text.remove();
+                                            Snap(this[0]).rightLine.remove();
+                                            Snap(this[0]).rightLine = 0;
+                                            Snap(this[0]).rightEntity = 0;                                            
+                                            
+                                        }                           
+                                 
+                                              // make this shape a start point                                   
+                                               L.start = Snap(this[0]);                                    
+                                              // console.log("START " + L.start.cx + ", " + L.start.cy);
+                                               sConnect = 2;      
+                                               edge = 4;
+                                                                 
+                                         
+                                         }},
+                                            "right-key2": {"name": "Set (Total)",
+                                         callback: function(key, opt) {
+                                             
+                                               
+                                              if( Snap(this[0]).rightLine !== 0){
+                                            
+                                            var indexE = Snap(this[0]).rightEntity.relationships.indexOf(Snap(this[0]).rightLine);  // remove old connection first
+                                            Snap(this[0]).rightEntity.attributes.splice(indexE);  
+                                            
+                                            if(Snap(this[0]).rightLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).rightLine.companion.remove();                                             
+                                            }   
+                                            
+                                            Snap(this[0]).rightLine.text.remove();
+                                            Snap(this[0]).rightLine.remove();
+                                            Snap(this[0]).rightLine = 0;
+                                            Snap(this[0]).rightEntity = 0;                                            
+                                            
+                                        }
+                                        
+                                                                           
+                                 
+                                              // make this shape a start point                                   
+                                               L.start = Snap(this[0]);                                    
+                                              // console.log("START " + L.start.cx + ", " + L.start.cy);
+                                               dConnect = 2;      
+                                               edge = 4;
+                                           
+                                         }                                      
+                                         
+                                         },
+                                         
+                                         "right-key3": {"name": "Remove",
+                                         callback: function(key, opt) {
+                                             
+                                            var indexE = Snap(this[0]).rightEntity.relationships.indexOf(Snap(this[0]).rightLine);  // remove old connection first
+                                            Snap(this[0]).rightEntity.attributes.splice(indexE);  
+                                            
+                                            if(Snap(this[0]).rightLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).rightLine.companion.remove();                                             
+                                            }   
+                                            
+                                            Snap(this[0]).rightLine.text.remove();
+                                            Snap(this[0]).rightLine.remove();
+                                            Snap(this[0]).rightLine = 0;
+                                            Snap(this[0]).rightEntity = 0;                                            
+                                    
+                                            
+                                         }                                      
+                                         
+                                         },
+                                         
+                                         "right-key4": {"name": "Ratio: 1",
+                                         callback: function(key, opt) {
+                                             
+                                            if( Snap(this[0]).rightLine !== 0){
+
+                                               Snap(this[0]).rightLine.ratio = "1";                                                                               
+
+                                           }                  
+                                    
+                                            
+                                         }                                      
+                                         
+                                         },
+                                         
+                                         "right-key5": {"name": "Ratio: N",
+                                         callback: function(key, opt) {
+                                             
+                                             if( Snap(this[0]).rightLine !== 0){
+
+                                               Snap(this[0]).rightLine.ratio = "N";                                                                               
+
+                                           }                                                                      
+                                    
+                                            
+                                         }                                      
+                                         
+                                         }
+                                            
+                                    }
+                                },
+                                
+                                rename: {
+                                    name: "Rename",
+                                    callback: function(key, opt) {                                      
+                                        
+                                        
+                                    var str = prompt("Please enter a name.", "Name"); 
+                                 
+                                        
+                                         str = str.replace(/ /g,"_");
+                                         
+                                         if (str !== null) {
+
+                                            Snap(this[0]).name = str;  
+
+                                        }                                               
+                                      
+                                    }
+                                  },
+                               
+                                  delete: {
+                                    name: "Delete",
+                                    callback: function(key, opt) {
+                                        
+                                        for(i=0; i<Snap(this[0]).attributes.length; i++){        // set "owner" of all attributes = 0
+                                            
+                                                Snap(this[0]).attributes[i].start.owner = 0;         // start point of the line will always be the child
+                                                Snap(this[0]).attributes[i].remove();                // remove line                                                               
+
+                                        }  
+                                        
+                                        if( Snap(this[0]).topEntity !== 0){
+                                            
+                                            var indexE = Snap(this[0]).topEntity.relationships.indexOf(Snap(this[0]).topLine);  // find position of line within owner's relationships list
+                                            Snap(this[0]).topEntity.relationships.splice(indexE);                         // remove element with that position from relationships list                                   
+                                            
+                                         if(Snap(this[0]).topLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).topLine.companion.remove();                                             
+                                         }          
+                                         
+                                         
+                                            Snap(this[0]).topLine.text.remove();
+                                            Snap(this[0]).topLine.remove();
+                                            
+                                        }  
+                                        
+                                        if( Snap(this[0]).botEntity !== 0){
+                                            
+                                            var indexE = Snap(this[0]).botEntity.relationships.indexOf(Snap(this[0]).botLine);  // find position of line within owner's relationships list
+                                            Snap(this[0]).botEntity.relationships.splice(indexE);                         // remove element with that position from relationships list                                   
+                                            
+                                         if(Snap(this[0]).botLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).botLine.companion.remove();                                             
+                                         }        
+                                         
+                                            Snap(this[0]).botLine.text.remove();
+                                            Snap(this[0]).botLine.remove();
+                                            
+                                        }        
+                                        
+                                        if( Snap(this[0]).leftEntity !== 0){
+                                            
+                                            var indexE = Snap(this[0]).leftEntity.relationships.indexOf(Snap(this[0]).leftLine);  // find position of line within owner's relationships list
+                                            Snap(this[0]).leftEntity.relationships.splice(indexE);                         // remove element with that position from relationships list                                   
+                                            
+                                         if(Snap(this[0]).leftLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).leftLine.companion.remove();
+                                             
+                                         }
+                                        
+                                            Snap(this[0]).leftLine.text.remove();
+                                            Snap(this[0]).leftLine.remove();
+                                            
+                                        }    
+                                        
+                                        if( Snap(this[0]).rightEntity !== 0){
+                                            
+                                            var indexE = Snap(this[0]).rightEntity.relationships.indexOf(Snap(this[0]).rightLine);  // find position of line within owner's relationships list
+                                            Snap(this[0]).rightEntity.relationships.splice(indexE);                         // remove element with that position from relationships list                                   
+                                            
+                                         if(Snap(this[0]).rightLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).rightLine.companion.remove();                                             
+                                         }      
+                                         
+                                            Snap(this[0]).rightLine.text.remove();
+                                            Snap(this[0]).rightLine.remove();
+                                            
+                                        } 
+                                        
+                                        Snap(this[0]).text.remove;                             // remove name
+                                        Snap(this[0]).remove();                                // remove target  
+                                      
+                                    }
+                                  }
+                                }                 
+                                
+                              });
+                              
+                             
+                             
+                              // UNIONS //
+                              
+                              $.contextMenu({
+                                selector: '#union',
+                                items: {
+                                    
+                                  "superclass": {
+                                        "name": "Superclass", 
+                                        "items": {
+                                            "superclass-key1": {"name": "Add",
+                                         callback: function(key, opt) {
+                                      
+                                            // make this shape a start point                                   
+                                               L.start =  Snap(this[0]);                                    
+                                              // console.log("START " + L.start.cx + ", " + L.start.cy);
+                                               union_super = 2;   
+                                                                                      
+                                         
+                                         }},
+                                            "superclass-key2": {"name": "Remove",
+                                         callback: function(key, opt) {
+                                             
+                                                                              
+                                            L.start = Snap(this[0]);                                    
+
+                                            del_union_super  = 2;     
+                                    
+                                            
+                                         }                                      
+                                         
+                                         }
+                                            
+                                    }
+                                },                                     
                                 
                                
-                            
-                            };                 
+                                  delete: {
+                                    name: "Delete",
+                                    callback: function(key, opt) {
+                                        
+                                         if(Snap(this[0]).sub !== 0){
+                                         
+                                         var indexE = Snap(this[0]).sub.unions.indexOf(Snap(this[0]).unionLine);  // find position of line within super's subclasses list
+                                         Snap(this[0]).sub.unions.splice(indexE);                         // remove element with that position from specializations list                                   
+                                             
+                                            if(Snap(this[0]).unionLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).unionLine.companion.remove();                                             
+                                            }   
+                                         
+                                            Snap(this[0]).unionLine.remove();                      
+                                         
+                                     }
+                                     
+                                     for(i=0; i<Snap(this[0]).supers.length; i++){        
+                                            
+                                                   var indexE = Snap(this[0]).supers[i].end.union_subs.indexOf(Snap(this[0]).supers[i]);  // find position of line within super's subclasses list
+                                                   Snap(this[0]).supers[i].end.union_subs.splice(indexE);                         // remove element with that position from subclasses list                                   
+                                                   Snap(this[0]).supers[i].remove();                                                         
+
+                                        }
+                                      
+                                      Snap(this[0]).text.remove();                             // remove name
+                                      Snap(this[0]).remove();                                // remove target
+                                      
+                                    }
+                                  }
+                                }                 
+                                
+                              });
+                              
+                              // SPECIALIZATIONS // 
+                              
+                              $.contextMenu({
+                                selector: '#spec',
+                                items: {
+                                    
+                                  "superclass": {
+                                        "name": "Superclass", 
+                                        "items": {
+                                            "superclass-key1": {"name": "Set (Partial)",
+                                         callback: function(key, opt) {
+                                             
+                                             if(  Snap(this[0]).super !== 0){
+                                                             
+
+                                                var indexE =  Snap(this[0]).super.specializations.indexOf( Snap(this[0]).superLine);  // remove old owner first
+                                                 Snap(this[0]).super.specializations.splice(indexE);  
+
+                                                if( Snap(this[0]).superLine.companion !== 0){                                             
+
+                                                     Snap(this[0]).superLine.companion.remove();                                             
+                                                }   
+
+
+                                                if( Snap(this[0]).superLine.attribute !== ""){
+
+                                                     Snap(this[0]).superLine.text.remove();
+                                                     Snap(this[0]).superLine.attribute = "";
+
+                                                }       
+
+                                                 Snap(this[0]).superLine.remove();
+                                                 Snap(this[0]).super = 0;                                             
+                                            
+                                        }                                        
+
+                                           // make this shape a start point                                   
+                                           L.start =  Snap(this[0]);                                    
+                                          // console.log("START " + L.start.cx + ", " + L.start.cy);
+                                           set_super = 2;  
+                                           super_double = 0;
+                                                          
+                                         
+                                         }},
+                                     
+                                        "superclass-key2": {"name": "Set (Total)",
+                                         callback: function(key, opt) {
+                                             
+                                             if(  Snap(this[0]).super !== 0){
+                                                             
+
+                                                var indexE =  Snap(this[0]).super.specializations.indexOf( Snap(this[0]).superLine);  // remove old owner first
+                                                 Snap(this[0]).super.specializations.splice(indexE);  
+
+                                                if( Snap(this[0]).superLine.companion !== 0){                                             
+
+                                                     Snap(this[0]).superLine.companion.remove();                                             
+                                                }   
+
+
+                                                if( Snap(this[0]).superLine.attribute !== ""){
+
+                                                     Snap(this[0]).superLine.text.remove();
+                                                     Snap(this[0]).superLine.attribute = "";
+
+                                                }       
+
+                                                 Snap(this[0]).superLine.remove();
+                                                 Snap(this[0]).super = 0;                                             
+                                            
+                                        }                                        
+
+                                           // make this shape a start point                                   
+                                           L.start =  Snap(this[0]);                                    
+                                          // console.log("START " + L.start.cx + ", " + L.start.cy);
+                                           set_super = 2;  
+                                           super_double = 1;
+                                                          
+                                         
+                                         }},
+                                            "superclass-key3": {"name": "Remove",
+                                         callback: function(key, opt) {
+                                             
+                                             if( Snap(this[0]).super !== 0){
+                                            
+                                            var indexE = Snap(this[0]).super.specializations.indexOf(Snap(this[0]).superLine);  // find position of line within owner's attributes list
+                                            Snap(this[0]).super.specializations.splice(indexE);                         // remove element with that position from attributes list                                   
+                                            
+                                             if(Snap(this[0]).superLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).superLine.companion.remove();                                             
+                                            }   
+                                         
+                                           if(Snap(this[0]).superLine.attribute !== ""){
+                                                
+                                                Snap(this[0]).superLine.text.remove();
+                                                Snap(this[0]).superLine.attribute = "";
+                                                
+                                            }
+                                         
+                                            Snap(this[0]).superLine.remove();
+                                            
+                                        } 
+                                        
+                                        Snap(this[0]).super = 0;
+                                        Snap(this[0]).superLine.remove();         
+                                             
+                                  
+                                            
+                                         }                                      
+                                         
+                                         }
+                                            
+                                    }
+                                }, 
+                                
+                                "defattr": {
+                                        "name": "Defining Attribute", 
+                                        "items": {
+                                            "defattr-key1": {"name": "Set",
+                                         callback: function(key, opt) {
+                                             
+                                             var attr_list = [];
+                                             var temp = " ";
+                                     
+                                            if(Snap(this[0]).super !== 0){
+                                                
+                                                
+                                         
+                                                attr_list = Snap(this[0]).super.attributes;
+
+                                                for(i=0; i<Snap(this[0]).super.attributes.length; i++){    // get each one of the attributes
+                                                    
+                                                    
+                                                   temp = temp + "  " + '"' + Snap(this[0]).super.attributes[i].start.name + '"'; 
+
+
+                                                }
+
+                                                var string = prompt("Please enter one of the following attributes:" + temp, "");  // ask for attribute
+                                                string = string.replace(/ /g,"_");
+
+                                                  
+
+                                                if(string !== null){
+
+                                                    Snap(this[0]).superLine.attribute = string;
+
+                                                }
+                                         
+                                        }
+                                                
+                                         
+                                         }},
+                                     
+                                        "defattr-key2": {"name": "Remove",
+                                         callback: function(key, opt) {
+                                             
+                                             if(Snap(this[0]).superLine.attribute !== ""){
+                                                
+                                                Snap(this[0]).superLine.attribute = "";
+                                                
+                                            }
+                                            
+                                            
+                                         }}
+                                         
+                                    }
+                                },
+                                
+                               
+                                  delete: {
+                                    name: "Delete",
+                                    callback: function(key, opt) {
+                                        
+                                                if( Snap(this[0]).super !== 0){
+                                            
+                                            var indexE = Snap(this[0]).super.specializations.indexOf(Snap(this[0]).superLine);  // find position of line within super's subclasses list
+                                            Snap(this[0]).super.specializations.splice(indexE);                         // remove element with that position from specializations list                                   
+                                             
+                                            if(Snap(this[0]).superLine.companion !== 0){                                             
+                                              
+                                                Snap(this[0]).superLine.companion.remove();                                             
+                                            } 
+                                            
+                                            if(Snap(this[0]).superLine.attribute !== ""){
+                                                
+                                                Snap(this[0]).superLine.text.remove();
+                                                Snap(this[0]).superLine.attribute = "";
+                                                
+                                            }    
+                                         
+                                            Snap(this[0]).superLine.remove();
+                                            
+                                            
+                                        }   
+                                        
+                                        for(i=0; i<Snap(this[0]).subs.length; i++){        
+                                            
+                                                   var indexE = Snap(this[0]).subs[i].start.super_specializations.indexOf(Snap(this[0]).subs[i]);  // find position of line within super's subclasses list
+                                                   Snap(this[0]).subs[i].start.super_specializations.splice(indexE);                         // remove element with that position from subclasses list                                   
+                                                   
+                                                   if(Snap(this[0]).subs[i].criteria !== ""){
+                                                
+
+                                                        Snap(this[0]).subs[i].criteria = ""; 
+                                                        Snap(this[0]).subs[i].text.remove();
+
+                                                    }
+                                         
+                                         
+                                                    Snap(this[0]).subs[i].remove();                                                         
+
+                                        }
+                                        
+                                        Snap(this[0]).text.remove();                             // remove name
+                                        Snap(this[0]).remove();                                // remove target
+                                       
+                                      
+                                    }
+                                  }
+                                }                 
+                                
+                              });
+                              
+                              // ATTRIBUTES //
+                              
+                              $.contextMenu({
+                                selector: '#attribute',
+                                items: {
+                                
+                                "datatype": {
+                                        "name": "Data Type", 
+                                        "items": {
+                                            "data-key1": {"name": "INTEGER (default) ",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "INTEGER";                                         
+                                         
+                                         }},
+                                            "data-key2": {"name": "BIGINT",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "BIGINT";
+                                        
+                                         }},                                        
+                                           "data-key3": {"name": "SMALLINT",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "SMALLINT";
+                                        
+                                         }},                                     
+                                          "data-key4": {"name": "REAL",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "REAL";
+                                        
+                                         }},
+                                         "data-key5": {"name": "DOUBLE PRECISION",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "DOUBLE PRECISION";
+                                        
+                                         }},
+                                         "data-key6": {"name": "DECIMAL (i,j)",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "DECIMAL";
+                                            
+                                            var str1 = prompt("Please enter a value for precision i:  ");
+                                            var str2 = prompt("Please enter a value for scale j:  ");
+                                            
+                                            if(str1 !== null && str2 !== null){
+                                                
+                                                var i_input = Math.floor(Number(str1));
+                                                var j_input = Math.floor(Number(str2));
+                                                Snap(this[0]).i = i_input;
+                                                Snap(this[0]).j = j_input; 
+                                                
+                                            }                              
+                                            
+                                        
+                                         }},
+                                         "data-key7": {"name": "CHARACTER (n)",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "CHARACTER";
+                                            
+                                            var str1 = prompt("Please enter a value for n:  ");
+                                            
+                                            
+                                            if(str1 !== null){
+                                                
+                                                var n_input = Math.floor(Number(str1));
+                                                
+                                                Snap(this[0]).n = n_input;
+                                               
+                                                
+                                            }                              
+                                            
+                                        
+                                         }},
+                                         "data-key8": {"name": "CHARACTER VARYING (n)",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "CHARACTER VARYING";
+                                            
+                                            var str1 = prompt("Please enter a value for n:  ");
+                                            
+                                            
+                                            if(str1 !== null){
+                                                
+                                                var n_input = Math.floor(Number(str1));
+                                                
+                                                Snap(this[0]).n = n_input;
+                                               
+                                                
+                                            }                              
+                                            
+                                        
+                                         }},
+                                         "data-key9": {"name": "BIT (n)",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "BIT";
+                                            
+                                            var str1 = prompt("Please enter a value for n:  ");
+                                            
+                                            
+                                            if(str1 !== null){
+                                                
+                                                var n_input = Math.floor(Number(str1));
+                                                
+                                                Snap(this[0]).n = n_input;
+                                               
+                                                
+                                            }                              
+                                            
+                                        
+                                         }},
+                                         "data-key10": {"name": "BIT VARYING (n)",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "BIT VARYING";
+                                            
+                                            var str1 = prompt("Please enter a value for n:  ");
+                                            
+                                            
+                                            if(str1 !== null){
+                                                
+                                                var n_input = Math.floor(Number(str1));
+                                                
+                                                Snap(this[0]).n = n_input;
+                                               
+                                                
+                                            }                              
+                                            
+                                        
+                                         }},
+                                         "data-key11": {"name": "BOOLEAN",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "BOOLEAN";
+                                        
+                                         }},
+                                         "data-key12": {"name": "XML",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "XML";
+                                        
+                                         }},
+                                         "data-key13": {"name": "TIME",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "TIME";
+                                        
+                                         }},
+                                         "data-key14": {"name": "DATE",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "DATE";
+                                        
+                                         }},
+                                         "data-key15": {"name": "TIMESTAMP",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "TIMESTAMP";
+                                        
+                                         }},
+                                         "data-key16": {"name": "INTERVAL",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).dataT = "INTERVAL";
+                                        
+                                         }},
+                                         "data-key17": {"name": "Other (Add Type)",
+                                         callback: function(key, opt) {
+                                              
+                                             var str1 = prompt("Please enter your data type:  ");
+                                            
+                                            
+                                            if(str1 !== null){
+                                                
+                                                Snap(this[0]).dataT = str1;
+                                                
+                                            }                                    
+                                            
+                                        
+                                         }},
+                                         
+                                            
+                                    }
+                                },                                
+                                 "owner": {
+                                        "name": "Owner", 
+                                        "items": {
+                                            "nowner-key1": {"name": "Set",
+                                         callback: function(key, opt) {
+                                                                      
+                                            if( Snap(this[0]).owner !== 0){
+                                            
+                                                var indexE = Snap(this[0]).owner.attributes.indexOf(Snap(this[0]).ownerLine);  // remove old owner first
+                                                Snap(this[0]).owner.attributes.splice(indexE);                                                           
+                                                Snap(this[0]).ownerLine.remove();
+                                                Snap(this[0]).owner = 0;
+                                             
+                                            
+                                        }                                        
+                                 
+                                            // make this shape a start point                                   
+                                               L.start = Snap(this[0]);                                    
+                                              // console.log("START " + L.start.cx + ", " + L.start.cy);
+                                               line_cr = 2;   
+                                         
+                                         
+                                         }},
+                                            "owner-key2": {"name": "Remove",
+                                         callback: function(key, opt) {
+                                                                      
+                                            if( Snap(this[0]).owner !== 0){
+                                            
+                                                var indexE = Snap(this[0]).owner.attributes.indexOf(Snap(this[0]).ownerLine);  // find position of line within owner's attributes list
+                                                Snap(this[0]).owner.attributes.splice(indexE);                         // remove element with that position from attributes list                                   
+                                                Snap(this[0]).ownerLine.remove();
+                                            
+                                            } 
+
+                                            Snap(this[0]).owner = 0;
+                                            Snap(this[0]).ownerLine.remove(); 
+                                        
+                                         }                                      
+                                         
+                                         }
+                                            
+                                    }
+                                },                                 
+                                
+                                   "primary": {
+                                        "name": "Primary", 
+                                        "items": {
+                                            "primary-key1": {"name": "Yes",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).primary = true;
+                                            Snap(this[0]).unique = true;
+                                            Snap(this[0]).notnull = true;
+                                         
+                                         
+                                         }},
+                                            "primary-key2": {"name": "No",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).primary = false;
+                                        
+                                         }                                      
+                                         
+                                         }
+                                            
+                                    }
+                                },                               
+                                  
+                                  "unique": {
+                                        "name": "Unique", 
+                                        "items": {
+                                            "unique-key1": {"name": "Yes",
+                                                                        
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).unique = true;
+                                            Snap(this[0]).notnull = true;
+                                         
+                                         
+                                         }},
+                                            "unique-key2": {"name": "No",
+                                                
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).unique = false;
+                                        
+                                         }                                      
+                                         
+                                         }
+                                            
+                                    }
+                                },
+                                  "notnull": {
+                                        "name": "Not NULL", 
+                                        "items": {
+                                            "notnull-key1": {"name": "Yes",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).notnull = true;
+                                         
+                                         
+                                         }},
+                                            "notnull-key2": {"name": "No",
+                                         callback: function(key, opt) {
+                                                                      
+                                            Snap(this[0]).notnull = false;
+                                        
+                                         }                                      
+                                         
+                                         }
+                                            
+                                    }
+                                },   
+                                
+                                  rename: {
+                                    name: "Rename",
+                                    callback: function(key, opt) {                                      
+                                        
+                                        
+                                    var str = prompt("Please enter a name.", "Name"); 
+                                 
+                                        
+                                         str = str.replace(/ /g,"_");
+                                         
+                                         if (str !== null) {
+
+                                            Snap(this[0]).name = str;  
+
+                                        }                                               
+                                      
+                                    }
+                                  },
+                                  
+                                  properties: {
+                                    name: "Properties",
+                                    callback: function(key, opt) {
+                                    
+                                    var unique = ""; 
+                                    var primary = "";
+                                    var notnull = "";
+                                    var data_type = "";
+                                    
+                                    if(Snap(this[0]).unique === true){
+                                        
+                                        unique = "Yes";                                        
+                                    }
+                                    
+                                    else {
+                                        
+                                        unique = "No";                                        
+                                    }
+                                    
+                                     if(Snap(this[0]).primary === true){
+                                        
+                                        primary = "Yes";                                        
+                                    }
+                                    
+                                    else {
+                                        
+                                        primary = "No";                                        
+                                    }
+                                    
+                                    if(Snap(this[0]).notnull === true){
+                                        
+                                        notnull = "Yes";                                        
+                                    }
+                                    
+                                    else {
+                                        
+                                        notnull = "No";                                        
+                                    }
+                                    
+                                    if(Snap(this[0]).dataT === "DECIMAL"){
+                                        
+                                        data_type = Snap(this[0]).dataT + "(" + Snap(this[0]).i + ", " + Snap(this[0]).j + ")" ;                                       
+                                    }
+                                    
+                                    else if (Snap(this[0]).dataT === "CHARACTER" || Snap(this[0]).dataT === "CHARACTER VARYING" || Snap(this[0]).dataT === "BIT" || Snap(this[0]).dataT === "BIT VARYING"){
+                                        
+                                           data_type = Snap(this[0]).dataT + "(" + Snap(this[0]).n + ")" ;                                     
+                                    }
+                                    
+                                    else{
+                                        
+                                        data_type = Snap(this[0]).dataT;
+                                        
+                                    }
+                                    
+                                    swal("Properties", "Attribute name: " + Snap(this[0]).name + '\n' + "Primary: " + primary + '\n' + "Unique: " + unique + '\n' + "Not NULL: " + notnull  + '\n' + "Data Type: " + data_type);    
+                                        
+                                        
+                                                                                  
+                                      
+                                    }
+                                  },
+                                  delete: {
+                                    name: "Delete",
+                                    callback: function(key, opt) {
+                                        
+                                         for(i=0; i<Snap(this[0]).attributes.length; i++){        // set "owner" of all attributes = 0
+                                            
+                                                Snap(this[0]).attributes[i].start.owner = 0;         
+                                                Snap(this[0]).attributes[i].remove();                // remove line                                                               
+
+                                        }
+                                        
+                                        if( Snap(this[0]).owner !== 0){
+                                            
+                                            var indexE = Snap(this[0]).owner.attributes.indexOf(Snap(this[0]).ownerLine);  // find position of line within owner's attributes list
+                                            Snap(this[0]).owner.attributes.splice(indexE);                                 // remove element with that position from attributes list                                   
+                                            Snap(this[0]).ownerLine.remove();
+                                            
+                                        }   
+                                        
+                                        Snap(this[0]).text.remove();                             // remove name
+                                        Snap(this[0]).remove();                                // remove target 
+                                      
+                                    }
+                                  }                
+                                 
+                                }                 
+                                
+                              });
+
                             
                           
                             
