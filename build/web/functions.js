@@ -1,4 +1,259 @@
 
+                        
+                        // SAVING & LOADING //
+                        
+                        $(function() 
+                        {
+                          console.log( "ready!" );
+                          // Check for the various File API support.
+                          if (window.File && window.FileReader && window.FileList && window.Blob) 
+                          {
+                            //alert("This browser supports file loading...");
+                            $('#load-text-file').change(function(evt){ return handleFileSelect(evt, $('#textInput')); } );
+                            $('#load-html-file').change(function(evt){ return handleFileSelect(evt, $('#htmlInput')); } );
+                          } 
+                          else 
+                          {
+                            alert('The File APIs are not fully supported in this browser.');
+                          }
+                        }
+                       );
+
+                      function saveText(ref, fname, text, mime)
+                      {
+                        var blob = new Blob([text], {type: mime});
+                        saveAs(blob, fname);
+
+                        return false;
+                      }
+
+
+                      function handleFileSelect(evt, target) 
+                      {
+                        var files = evt.target.files;
+                        if( files.length > 1 )
+                        {
+                          alert("Multiple files not supported...");
+                        }
+
+                        //alert(JSON.stringify(files,null,2));
+                        file = files[0];
+                        
+                        $(evt.target).prev('.file-details').html(file.name);
+
+                        var reader = new FileReader();
+                        // Closure to capture the file information.
+                        reader.onload = (
+                          function(theFile) 
+                          {
+                            return function(e) 
+                            {
+                                
+                                
+                              if (window.DOMParser)
+                        {
+                        parser=new DOMParser();
+                        xmlDoc=parser.parseFromString(e.target.result,"text/xml");
+                        }
+                      else // Internet Explorer
+                        {
+                        xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+                        xmlDoc.async=false;
+                        xmlDoc.loadXML(e.target.result);
+                        }
+                      
+                      var x = xmlDoc.getElementsByTagName("entity");
+                         
+                            for (i = 0; i <x.length; i++) {   // get data for each entity node
+                                  
+                                var ent_type = xmlDoc.getElementsByTagName("type")[i].childNodes[0].nodeValue;
+
+                                var ent_name = xmlDoc.getElementsByTagName("name")[i].childNodes[0].nodeValue;
+                                
+                                var ent_x = xmlDoc.getElementsByTagName("x")[i].childNodes[0].nodeValue;
+                                
+                                ent_x = Math.floor(Number(ent_x));
+                           
+                                var ent_y = xmlDoc.getElementsByTagName("y")[i].childNodes[0].nodeValue;
+                                
+                                ent_y = Math.floor(Number(ent_y));
+
+                                createRect(ent_type, ent_name, ent_x, ent_y);  
+                      
+                              }          
+                              
+                      x = xmlDoc.getElementsByTagName("attribute");
+                         
+                            for (i = 0; i <x.length; i++) {   // get data for each entity node
+                                  
+                                var attr_type = xmlDoc.getElementsByTagName("a-type")[i].childNodes[0].nodeValue;
+                                
+                                var attr_name = xmlDoc.getElementsByTagName("a-name")[i].childNodes[0].nodeValue;
+                                
+                                var attr_x = xmlDoc.getElementsByTagName("a-x")[i].childNodes[0].nodeValue;
+                                
+                                attr_x = Math.floor(Number(attr_x));
+                           
+                                var attr_y = xmlDoc.getElementsByTagName("a-y")[i].childNodes[0].nodeValue;
+                                
+                                attr_y = Math.floor(Number(attr_y));
+                                
+                                var attr_data = xmlDoc.getElementsByTagName("a-data")[i].childNodes[0].nodeValue;
+                                
+                                var attr_n = xmlDoc.getElementsByTagName("a-n")[i].childNodes[0].nodeValue;
+                                
+                                attr_n = Math.floor(Number(attr_n));
+                                
+                                var attr_i = xmlDoc.getElementsByTagName("a-i")[i].childNodes[0].nodeValue;
+                                
+                                attr_i = Math.floor(Number(attr_i));
+                                
+                                var attr_j = xmlDoc.getElementsByTagName("a-j")[i].childNodes[0].nodeValue;
+                                
+                                attr_j = Math.floor(Number(attr_j));
+                                
+                                var attr_primary = xmlDoc.getElementsByTagName("a-primary")[i].childNodes[0].nodeValue;
+                                
+                                var attr_unique = xmlDoc.getElementsByTagName("a-unique")[i].childNodes[0].nodeValue;
+                                
+                                var attr_notnull = xmlDoc.getElementsByTagName("a-notnull")[i].childNodes[0].nodeValue;
+                                
+
+                                createEllipse(attr_type, attr_name, attr_data, attr_n, attr_i, attr_j, attr_primary, attr_unique, attr_notnull, attr_x, attr_y);  
+                      
+                              }   
+                              
+                            x = xmlDoc.getElementsByTagName("relationship");
+                         
+                            for (i = 0; i <x.length; i++) {   // get data for each entity node
+                                  
+                                var rel_type = xmlDoc.getElementsByTagName("r-type")[i].childNodes[0].nodeValue;
+
+                                var rel_name = xmlDoc.getElementsByTagName("r-name")[i].childNodes[0].nodeValue;
+                                
+                                var rel_x = xmlDoc.getElementsByTagName("r-x")[i].childNodes[0].nodeValue;
+                                
+                                rel_x = Math.floor(Number(rel_x));
+                           
+                                var rel_y = xmlDoc.getElementsByTagName("r-y")[i].childNodes[0].nodeValue;
+                                
+                                rel_y = Math.floor(Number(rel_y));
+
+                                createRhombus(rel_type, rel_name, rel_x, rel_y);  
+                      
+                              }       
+                              
+                               x = xmlDoc.getElementsByTagName("specialization-union");
+                         
+                            for (i = 0; i <x.length; i++) {   // get data for each entity node
+                                  
+                                var su_type = xmlDoc.getElementsByTagName("su-type")[i].childNodes[0].nodeValue;
+
+                                
+                                
+                                var su_x = xmlDoc.getElementsByTagName("su-x")[i].childNodes[0].nodeValue;
+                                
+                                su_x = Math.floor(Number(su_x));
+                           
+                                var su_y = xmlDoc.getElementsByTagName("su-y")[i].childNodes[0].nodeValue;
+                                
+                                su_y = Math.floor(Number(su_y));
+
+                                createCircle(su_type, su_x, su_y);  
+                      
+                              }       
+                      
+                              
+                              target.html( e.target.result );
+                            };
+                          }
+                        )(file);
+
+                        // Read in the image file as a data URL.
+                        reader.readAsText(file);
+                      }
+                      
+                      
+            function generateFile(){
+                
+                   
+                    var txt1 ='<?xml version="1.0" encoding="UTF-8"?>' + '<diagram>';
+                    var txt2 = ""; 
+                    var txt3 = "";
+                    var txt4 = "";
+                    var txt5 = "";
+                    
+                    for(i=0; i<globalEntities.length; i++ ){
+                        
+                        var bbox = globalEntities[i].getBBox();
+                        
+                        txt2 = txt2 + "<entity>" + "<name>" + globalEntities[i].name + "</name>" + "<type>" + globalEntities[i].type + "</type>" + "<x>" + bbox.x + "</x>" + "<y>" + bbox.y + "</y>" + "</entity>";
+                       
+                    }
+                    
+                     for(i=0; i<globalAttributes.length; i++ ){
+                        
+                        var bbox = globalAttributes[i].getBBox();
+                        
+                        txt3 = txt3 + "<attribute>" + "<a-name>" + globalAttributes[i].name + "</a-name>" + "<a-type>" + globalAttributes[i].type + "</a-type>" + "<a-data>" + globalAttributes[i].dataT + "</a-data>" + "<a-n>" + 
+                        globalAttributes[i].n + "</a-n>" + "<a-i>" + globalAttributes[i].i + "</a-i>" +  "<a-j>" + globalAttributes[i].j  + "</a-j>" +  "<a-primary>" + globalAttributes[i].primary + "</a-primary>" + "<a-unique>" + 
+                        globalAttributes[i].unique + "</a-unique>" + "<a-notnull>" + globalAttributes[i].notNull + "</a-notnull>" + "<a-x>" + bbox.cx + "</a-x>" + "<a-y>" + bbox.cy + "</a-y>" + "</attribute>";
+                        
+                       
+                    }
+                    
+                    for(i=0; i<globalRelationships.length; i++ ){
+                        
+                        var bbox = globalRelationships[i].getBBox();
+                        
+                        txt4 = txt4 + "<relationship>" + "<r-name>" + globalRelationships[i].name + "</r-name>" + "<r-type>" + globalRelationships[i].type + "</r-type>" + "<r-x>" + bbox.x + "</r-x>" + "<r-y>" + bbox.y + "</r-y>" + "</relationship>";
+                        
+                       
+                    }
+                    
+                    for(i=0; i<globalSpecs_Unions.length; i++ ){
+                        
+                        var bbox = globalSpecs_Unions[i].getBBox();
+                        
+                        txt5 = txt5 + "<specialization-union>" + "<su-type>" + globalSpecs_Unions[i].type + "</su-type>" + "<su-x>" + bbox.cx + "</su-x>" + "<su-y>" + bbox.cy + "</su-y>" + "</specialization-union>";
+                        
+                       
+                    }
+                    
+                
+                
+                
+                    var txt = txt1 + txt2 + txt3 + txt4 + txt5 + "</diagram>";
+                    return saveText(this, 'test', txt , 'text/plain;charset=utf-8');
+                    
+                };
+
+
+                            // IMAGE EXPORT //
+                            
+                                    
+                   // Capturing a diagram to PNG //   
+
+                  function screenshot()  {                    
+
+                    var svg = document.getElementsByTagName('svg')[0];
+                    var svg_xml = (new XMLSerializer()).serializeToString(svg);
+                    var blob = new Blob([svg_xml], {type:'image/svg+xml;charset=utf-8'});
+                    var url = window.URL.createObjectURL(blob);
+
+                    canvg('canvas', svg_xml);
+
+                    var img = canvas.toDataURL("image/png");
+                    var w = window.open(img);
+
+
+                };  
+                
+               
+                
+
+                            // DIAGRAM GRAPHICS //
+
 
                             // Get height & width of container //
 
@@ -13,13 +268,19 @@
                             basic_x = Math.floor(divWidth/2) - 100;
                             
                             var entity_counter = 0;
+                            var globalEntities = [];
                             
                             var attribute_counter = 0;
+                            var globalAttributes = [];
                             
                             var relationship_counter = 0;
-
+                            var globalRelationships = [];
+                            
+                            var globalSpecs_Unions = [];
+                            
+                           
                           
-                          function createRect(rect_type){  
+                          function createRect(rect_type, rect_name, rx, ry){  
                               
                             var r = Snap('#svg');
                             
@@ -27,7 +288,7 @@
                             
                             if(rect_type === "entity"){                            
                             
-                                var newRect = r.rect(basic_x + entity_counter,basic_y + entity_counter,110,55);
+                                var newRect = r.rect(rx,ry,110,55);
                                 newRect.attr({                                   
                                     fill:'#ccffe6',
                                     stroke:'#000',
@@ -38,14 +299,14 @@
                             
                             else if (rect_type === "weak_entity"){
                                     
-                                var outerBorder = r.rect(basic_x + entity_counter,basic_y + entity_counter,110,55);
+                                var outerBorder = r.rect(rx,ry,110,55);
                                 outerBorder.attr({                            
                                     fill:'#ccffe6',
                                     stroke:'#000',
                                     strokeWidth: 2
                                 });                                           
                                 
-                                var innerBorder = r.rect(basic_x + entity_counter + 7,basic_y + entity_counter + 5,96,45);
+                                var innerBorder = r.rect(rx + 7,ry + 5,96,45);
                                 innerBorder.attr({                              
                                     fill:'#ccffe6',
                                     stroke:'#000',
@@ -63,7 +324,8 @@
                              
                             })          
                           
-                            newRect.name = "entity_" + entity_counter; 
+                            newRect.name = rect_name;
+                            //newRect.name = "entity_" + entity_counter; 
                             var bb2 = newRect.getBBox();
                             var t1 = r.text(bb2.cx, bb2.cy, newRect.name);
                                                        
@@ -102,6 +364,7 @@
                             newRect.super_specializations = [];
                             newRect.unions = [];
                             newRect.union_subs = [];
+                            globalEntities.push(newRect);
                             newRect.click( this.clickTrigger );                            
                             newRect.dblclick( addHandleFunc ); // start scaling upon double click                     
                             newRect.drag(); // use default drag() once shape is made 
@@ -132,12 +395,12 @@
                           };
                           
                           
-                          function createCircle(c_type){                    
+                          function createCircle(c_type, x, y){                    
                              
                             var c = Snap('#svg');                            
                             
                                 
-                                var newCircle = c.circle(basic_x,basic_y,25);
+                                var newCircle = c.circle(x,y,25);
                                 newCircle.attr({                            
                                     fill:'#f2f4f3',
                                     stroke:'#000',
@@ -155,6 +418,8 @@
                                     
                                 }); 
                                 
+                                globalSpecs_Unions.push(newCircle);
+                                
                             }
                             
                             else if(c_type === "overlapping"){
@@ -163,7 +428,9 @@
                                
                                newCircle.attr({                            
                                     id: "spec"                                    
-                                }); 
+                                });
+                                
+                                globalSpecs_Unions.push(newCircle);
                                 
                             }
                             
@@ -175,6 +442,8 @@
                                     id: "union"
                                     
                                 }); 
+                                
+                                globalSpecs_Unions.push(newCircle);
                                 
                             }
                             
@@ -195,7 +464,7 @@
                             
                             newCircle.sub = 0;
                             newCircle.unionLine = 0;      // allows union to only have one subclass
-                           
+                            
                             newCircle.click( this.clickTrigger );
                             
                             newCircle.drag();   
@@ -226,7 +495,7 @@
                          
                          
                          
-                         function createEllipse(ell_type){                    
+                         function createEllipse(ell_type, ell_name, data, n, i, j, primary, unique, notnull, x, y){                    
                            
                              
                             var e = Snap('#svg');
@@ -235,9 +504,9 @@
                             
                             if(ell_type === "attribute"){
                                 
-                                var newEllipse = e.ellipse(basic_x + attribute_counter,basic_y + attribute_counter,60,25);
+                                var newEllipse = e.ellipse(x,y,60,25);
                                 newEllipse.attr({                            
-                                    fill:'#e6ccff',
+                                    fill:'#ccdaff',
                                     stroke:'#000',
                                     strokeWidth: 2
                                 });                    
@@ -246,9 +515,9 @@
                             
                             else if (ell_type === "derived_attribute"){
                                 
-                                var newEllipse = e.ellipse(basic_x + attribute_counter,basic_y + attribute_counter,60,25);
+                                var newEllipse = e.ellipse(x,y,60,25);
                                 newEllipse.attr({                            
-                                    fill:'#e6ccff',
+                                    fill:'#ccdaff',
                                     stroke:'#000',
                                     strokeDasharray: 10,
                                     strokeWidth: 2
@@ -259,16 +528,16 @@
                             
                              else if (ell_type === "multi_attribute"){                                
                                 
-                                var outerEllipse = e.ellipse(basic_x + attribute_counter,basic_y + attribute_counter,60,25);
+                                var outerEllipse = e.ellipse(x,y,60,25);
                                 outerEllipse.attr({                            
-                                    fill:'#e6ccff',
+                                    fill:'#ccdaff',
                                     stroke:'#000',
                                     strokeWidth: 2
                                 });      
                                 
-                                var innerEllipse = e.ellipse(basic_x + attribute_counter,basic_y + attribute_counter,51,19);
+                                var innerEllipse = e.ellipse(x,y,51,19);
                                 innerEllipse.attr({                            
-                                    fill:'#e6ccff',
+                                    fill:'#ccdaff',
                                     stroke:'#000',
                                     strokeWidth: 2
                                 });   
@@ -284,22 +553,23 @@
                              
                             })  
                              
-                             newEllipse.name = "attribute_" + attribute_counter;
+                             newEllipse.name = ell_name;
                              var bb2 = newEllipse.getBBox();                       
                              var t1 = e.text(bb2.cx, bb2.cy, newEllipse.name);
                             
                             newEllipse.text = t1;
                             newEllipse.attributes = [];            // list of  lines connected to this shape
                             newEllipse.type = ell_type;          // type
-                            newEllipse.dataT = "INTEGER";       // data type
-                            newEllipse.n = 1;                  // characters/bits
-                            newEllipse.i = 0;
-                            newEllipse.j = 0;                // scale
+                            newEllipse.dataT = data;       // data type
+                            newEllipse.n = n;                  // characters/bits
+                            newEllipse.i = i;
+                            newEllipse.j = j;                // scale
                             newEllipse.owner = 0;            // owner
                             newEllipse.ownerLine = 0;        // line connecting to owner
-                            newEllipse.primary = false;
-                            newEllipse.unique = false;
-                            newEllipse.notNull = false;
+                            newEllipse.primary = (primary === "true");
+                            newEllipse.unique = (unique === "true");
+                            newEllipse.notNull = (notnull === "true");
+                            globalAttributes.push(newEllipse);
                             newEllipse.click( this.clickTrigger );
                             newEllipse.dblclick( addHandleFunc ); // start scaling upon double click
                             newEllipse.drag();   
@@ -352,7 +622,7 @@
                                                  
                          
                          
-                         function createRhombus(rhombus_type){                            
+                         function createRhombus(rhombus_type, rhombus_name, x, y){                            
                              
                             var r = Snap('#svg');
                             
@@ -360,7 +630,7 @@
                             
                             if(rhombus_type === "relationship"){
                             
-                                var newRhombus = r.rect(basic_x + relationship_counter,basic_y + relationship_counter,75,75);
+                                var newRhombus = r.rect(x,y,75,75);
                                 newRhombus.attr({                            
                                     fill:'#ffffff',
                                     stroke:'#000',
@@ -371,14 +641,14 @@
                              
                              else if (rhombus_type === "identifying_rel"){
                                  
-                                  var outerBorder = r.rect(basic_x + relationship_counter,basic_y + relationship_counter,75,75);
+                                  var outerBorder = r.rect(x,y,75,75);
                                 outerBorder.attr({                            
                                     fill:'#ffffff',
                                     stroke:'#000',
                                     strokeWidth: 2
                                 });                                         
                                 
-                                var innerBorder = r.rect(basic_x + relationship_counter + 8,basic_y + relationship_counter + 8,60,60);
+                                var innerBorder = r.rect(x + 8,y + 8,60,60);
                                 innerBorder.attr({                            
                                     fill:'#ffffff',
                                     stroke:'#000',
@@ -394,7 +664,7 @@
                             newRhombus.attr({                            
                                     id: "relationship"
                                 });                  
-                            newRhombus.name = "rel_" + relationship_counter; 
+                            newRhombus.name = rhombus_name; 
                             
                             var bb2 = newRhombus.getBBox();
                             var t1 = r.text(bb2.cx, bb2.cy, newRhombus.name);
@@ -415,7 +685,7 @@
                             newRhombus.botEntity = 0;
                             
                             newRhombus.type = rhombus_type;                         
-                            
+                            globalRelationships.push(newRhombus);
                             newRhombus.click( this.clickTrigger );
                             newRhombus.dblclick( addHandleFunc ); // start scaling upon double click
                             newRhombus.drag();    
@@ -1321,7 +1591,7 @@
                                   
                                   var LLocal = lsvg.line(0,0,0,0).attr({
                                     stroke: "#000",
-                                    strokeWidth: 3
+                                    strokeWidth: 2
                                   }); 
                                   
                                   LLocal.start = L.start;
@@ -2030,8 +2300,14 @@
 
                                         } 
                                         
+                                        var indexE = globalEntities.indexOf(Snap(this[0]));  // remove from global list
+                                        globalEntities.splice(indexE);  
+                                        
                                         Snap(this[0]).text.remove();                             // remove name
                                         Snap(this[0]).remove();                                // remove target  
+                                        
+                                        
+                                        
                                       
                                     }
                                   }
@@ -2605,8 +2881,14 @@
                                             
                                         } 
                                         
+                                        var indexE = globalRelationships.indexOf(Snap(this[0]));  // remove from global list
+                                        globalRelationships.splice(indexE);  
+                                        
                                         Snap(this[0]).text.remove;                             // remove name
                                         Snap(this[0]).remove();                                // remove target  
+                                        
+                                       
+                                        
                                       
                                     }
                                   }
@@ -3314,6 +3596,9 @@
                                             
                                         }   
                                         
+                                        var indexE = globalAttributes.indexOf(Snap(this[0]));  // remove from global list
+                                        globalAttributes.splice(indexE);  
+                                        
                                         Snap(this[0]).text.remove();                             // remove name
                                         Snap(this[0]).remove();                                // remove target 
                                       
@@ -3323,6 +3608,14 @@
                                 }                 
                                 
                               });
+                              
+                    
+              
+                
+                  
+
+                       
+
 
                             
                           

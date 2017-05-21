@@ -8,12 +8,22 @@ and open the template in the editor.
     Author     : Rin
 */
 
+.container-fluid {
+    
+    background: #e5ecff; 
+    
+}
 
+textarea {
+    
+    max-width: 400px;
+    
+}
 
  body{
      
-     
-     font-family: 'Ubuntu', sans-serif;
+     background: #e5ecff;
+     font-family: 'Raleway', sans-serif;
      font-size: 12px;
      
  }
@@ -93,28 +103,29 @@ and open the template in the editor.
  
 .page-header{
     
-    background: #e5ecff;
+    
     margin-top: 0px;
+    margin-bottom: -40px;
     
 }
 .page-header h1 {
-    padding-top: 20px;
+    
     text-align: center;
     font-size: 30px;
-    font-family: 'Martel', sans-serif;
-    color: #00001a;   
+    font-family: 'Julius Sans One', sans-serif;
+    color: black;   
 }
 
 #myNavbar ul{
     
-    padding-left: 35%;    
+    padding-left: 38%;    
     
 }
 
 #myNavbar ul li a{
     
    color: black;
-   font-size: 20px;
+   font-size: 15px;
     
 }
 
@@ -134,8 +145,9 @@ and open the template in the editor.
 .jumbotron {
     
     width:auto;
-    background-color: white;   
+    background: #e5ecff;   
     font-size: 16px;
+    line-height: 200%;
     
 }
 
@@ -219,13 +231,7 @@ a:hover{
  }
       
       
-      #title{
-          
-          background: #b3ccff;
-          border-color: white; 
-          border-width: 1px 0;
-          
-      }
+      
       
       .panel-default h4{
           
@@ -235,19 +241,13 @@ a:hover{
           
       }
       
-      #subtitle {          
+     
+      canvas{
           
-         font-size: 17px; 
-          
-      }
-      
-      #subtitle:hover {
-          
-          background: #e5ecff;
-          cursor: auto;
+          width: 1000px;
+          height: 1000px;
           
       }
-
 
 
       .btn{
@@ -267,7 +267,7 @@ a:hover{
 
 #drawing-box{
     
-   height: 75%; 
+   height: 80%; 
    width:  80%; 
    position: relative;
    background-color: #f2f4f3;    
